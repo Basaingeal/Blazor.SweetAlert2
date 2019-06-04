@@ -1,0 +1,1 @@
+Blazor.SweetAlert2
