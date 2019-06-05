@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
@@ -11,7 +12,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// The title of the modal, as HTML.
         /// <para>It can either be added to the object under the key "title" or passed as the first parameter of the function.</para>
         /// </summary>
-        public string Titlte { get; set; } = null;
+        public string Title { get; set; } = null;
 
         /// <summary>
         /// The title of the modal, as text. Useful to avoid HTML injection.
@@ -34,6 +35,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// The footer of the modal, as HTML.
         /// </summary>
         public string Footer { get; set; } = null;
+
 
         /// <summary>
         /// The type of the modal.
@@ -225,9 +227,9 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         //TODO: Remove if impossible
         /// <summary>
-        /// Function to execute before confirm, may be async (Promise-returning) or sync.
+        /// Function to execute before confirm.
         /// </summary>
-        public Func<object, Task<object>> PreConfirm { get; set; } = null;
+        public PreConfirmCallback PreConfirm { get; set; } = null;
 
         /// <summary>
         /// Add a customized icon for the modal. Should contain a string with the path or URL to the image.
@@ -280,7 +282,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <summary>
         /// Validator for input field.
         /// </summary>
-        public Func<string, Task<string>> InputValidator { get; set; } = null;
+        public InputValidatorCallback InputValidator { get; set; } = null;
 
         /// <summary>
         /// A custom validation message for default validators (email, url).
@@ -305,26 +307,93 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <summary>
         /// Function to run when modal built, but not shown yet. Provides modal DOM element as the first argument.
         /// </summary>
-        public Action<string> OnBeforeOpen { get; set; } = null;
+        public SweetAlertCallback OnBeforeOpen { get; set; } = null;
 
         /// <summary>
         /// Function to run after modal has been disposed.
         /// </summary>
-        public Action OnActerClose { get; set; } = null;
+        public SweetAlertCallback OnAfterClose { get; set; } = null;
 
         /// <summary>
         /// Function to run when modal opens, provides modal DOM element as the first argument.
         /// </summary>
-        public Action<string> OnOpen { get; set; } = null;
+        public SweetAlertCallback OnOpen { get; set; } = null;
 
         /// <summary>
         /// Function to run when modal closes, provides modal DOM element as the first argument.
         /// </summary>
-        public Action<string> OnClose { get; set; } = null;
+        public SweetAlertCallback OnClose { get; set; } = null;
 
         /// <summary>
         /// Set to false to disable body padding adjustment when scrollbar is present.
         /// </summary>
         public bool? ScrollbarPadding { get; set; } = true;
+
+
+        internal SweetAlertOptionPOCO ToPOCO()
+        {
+            return new SweetAlertOptionPOCO
+            {
+                Title = Title,
+                TitleText = TitleText,
+                Text = Text,
+                Html = Html,
+                Footer = Footer,
+                Type = Type.ToString(),
+                Backdrop = Backdrop,
+                Toast = Toast,
+                Target = Target,
+                Input = Input,
+                Width = Width,
+                Padding = Padding,
+                Background = Background,
+                Position = Position,
+                Grow = Grow,
+                CustomClass = CustomClass,
+                Timer = Timer,
+                Animation = Animation,
+                HeightAuto = HeightAuto,
+                AllowOutsideClick = AllowOutsideClick,
+                AllowEscapeKey = AllowEscapeKey,
+                AllowEnterKey = AllowEnterKey,
+                StopKeydownPropagation = StopKeydownPropagation,
+                KeydownListenerCapture = KeydownListenerCapture,
+                ShowConfirmButton = ShowConfirmButton,
+                ShowCancelButton = ShowCancelButton,
+                ConfirmButtonText = ConfirmButtonText,
+                CancelButtonText = CancelButtonText,
+                ConfirmButtonColor = ConfirmButtonColor,
+                CancelButtonColor = CancelButtonColor,
+                ConfirmButtonAriaLabel = ConfirmButtonAriaLabel,
+                CancelButtonAriaLabel = CancelButtonAriaLabel,
+                ButtonsStyling = ButtonsStyling,
+                ReverseButtons = ReverseButtons,
+                FocusConfirm = FocusConfirm,
+                FocusCancel = FocusCancel,
+                ShowCloseButton = ShowCloseButton,
+                CloseButtonAriaLabel = CloseButtonAriaLabel,
+                ShowLoaderOnConfirm = ShowLoaderOnConfirm,
+                PreConfirm = PreConfirm != null,
+                ImageUrl = ImageUrl,
+                ImageWidth = ImageWidth,
+                ImageHeight = ImageHeight,
+                ImageAlt = ImageAlt,
+                InputPlaceholder = InputPlaceholder,
+                InputValue = InputValue,
+                InputOptions = InputOptions,
+                InputAutoTrim = InputAutoTrim,
+                InputAttributes = InputAttributes,
+                InputValidator = InputValidator != null,
+                ValidationMessage = ValidationMessage,
+                ProgressSteps = ProgressSteps,
+                CurrentProgressStep = CurrentProgressStep,
+                ProgressStepsDistance = ProgressStepsDistance,
+                OnBeforeOpen = OnBeforeOpen != null,
+                OnAfterClose = OnAfterClose != null,
+                OnOpen = OnOpen != null,
+                OnClose = OnClose != null,
+                ScrollbarPadding = ScrollbarPadding
+            };
+        }
     }
 }
