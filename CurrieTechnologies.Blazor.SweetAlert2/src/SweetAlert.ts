@@ -8,7 +8,7 @@ function dispatchFireResult(requestId: string, result: SweetAlertResult): Promis
   return DotNet.invokeMethodAsync(namespace, "ReceiveFireResult", requestId, result);
 }
 
-function dispatchExecutePreConfirm(requestId: string, inputValue: any): Promise<any> {
+function dispatchPreConfirm(requestId: string, inputValue: any): Promise<any> {
   return DotNet.invokeMethodAsync(namespace, "ReceivePreConfirmInput", requestId, inputValue);
 }
 
@@ -32,6 +32,27 @@ function dispatchOnAfterClose(requestId: string): void {
   DotNet.invokeMethodAsync(namespace, "ReceiveOnAfterCloseInput", requestId);
 }
 
+function dispatchOnComplete(requestId: string): void {
+  DotNet.invokeMethodAsync(namespace, "ReceiveOnCompleteInput", requestId);
+}
+
+function getSwalSettingsFromJsonString(jsonString: string, requestId: string): SweetAlertOptions {
+  const settings = JSON.parse(jsonString);
+
+  const swalSettings = settings as SweetAlertOptions;
+  swalSettings.preConfirm = settings.preConfirm
+    ? (inputValue) => dispatchPreConfirm(requestId, inputValue)
+    : null;
+  swalSettings.inputValidator = settings.inputValidator
+    ? (inputValue) => dispatchInputValidator(requestId, inputValue)
+    : null;
+  swalSettings.onBeforeOpen = settings.onBeforeOpen ? () => dispatchOnBeforeOpen(requestId) : null;
+  swalSettings.onAfterClose = settings.onAfterClose ? () => dispatchOnAfterClose(requestId) : null;
+  swalSettings.onOpen = settings.onOpen ? () => dispatchOnOpen(requestId) : null;
+  swalSettings.onClose = settings.onClose ? () => dispatchOnClose(requestId) : null;
+  return swalSettings;
+}
+
 domWindow.CurrieTechnologies = domWindow.CurrieTechnologies || {};
 domWindow.CurrieTechnologies.Blazor = domWindow.CurrieTechnologies.Blazor || {};
 domWindow.CurrieTechnologies.Blazor.SweetAlert2 = domWindow.CurrieTechnologies.Blazor.SweetAlert2 || {};
@@ -47,20 +68,57 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Fire = async (
 };
 
 domWindow.CurrieTechnologies.Blazor.SweetAlert2.FireSettings = async (requestId: string, settingsJson: string) => {
-  const settings = JSON.parse(settingsJson);
-
-  const swalSettings = settings as SweetAlertOptions;
-  swalSettings.preConfirm = settings.preConfirm
-    ? (inputValue) => dispatchExecutePreConfirm(requestId, inputValue)
-    : null;
-  swalSettings.inputValidator = settings.inputValidator
-    ? (inputValue) => dispatchInputValidator(requestId, inputValue)
-    : null;
-  swalSettings.onBeforeOpen = settings.onBeforeOpen ? () => dispatchOnBeforeOpen(requestId) : null;
-  swalSettings.onAfterClose = settings.onAfterClose ? () => dispatchOnAfterClose(requestId) : null;
-  swalSettings.onOpen = settings.onOpen ? () => dispatchOnOpen(requestId) : null;
-  swalSettings.onClose = settings.onClose ? () => dispatchOnClose(requestId) : null;
+  const swalSettings = getSwalSettingsFromJsonString(settingsJson, requestId);
 
   const result = await Swal.fire(swalSettings);
   await dispatchFireResult(requestId, result);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsVisible = (): boolean => {
+  return !!Swal.isVisible();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.Update = async (requestId: string, settingsJson: string) => {
+  const swalSettings = getSwalSettingsFromJsonString(settingsJson, requestId);
+  Swal.update(swalSettings);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.Close = (requestId: string): void => {
+  Swal.close(() => dispatchOnComplete(requestId));
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.EnableButtons = (): void => {
+  Swal.enableButtons();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.DisableButtons = (): void => {
+  Swal.disableButtons();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ShowLoading = (): void => {
+  Swal.showLoading();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.HideLoading = (): void => {
+  Swal.hideLoading();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.HideLoading = (): boolean => {
+  return Swal.isLoading();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ClickConfirm = (): void => {
+  Swal.clickConfirm();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ClickCancel = (): void => {
+  Swal.clickCancel();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ShowValidationMessage = (validationMessage: string): void => {
+  Swal.showValidationMessage(validationMessage);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ResetValidationMessage = (): void => {
+  Swal.resetValidationMessage();
 };

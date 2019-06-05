@@ -6,23 +6,18 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
     public sealed class SweetAlertType
     {
         private readonly string name;
-        private static readonly Dictionary<string, SweetAlertType> instance =
+        private static readonly Dictionary<string, SweetAlertType> Instance =
             new Dictionary<string, SweetAlertType>();
 
         private SweetAlertType(string name)
         {
             this.name = name;
-            instance[name] = this;
-        }
-
-        public override string ToString()
-        {
-            return name;
+            Instance[name] = this;
         }
 
         public static explicit operator SweetAlertType(string str)
         {
-            if (instance.TryGetValue(str, out SweetAlertType result))
+            if (Instance.TryGetValue(str, out SweetAlertType result))
             {
                 return result;
             }
@@ -30,6 +25,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             {
                 throw new InvalidCastException();
             }
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
 
         public static readonly SweetAlertType SUCCESS = new SweetAlertType("success");

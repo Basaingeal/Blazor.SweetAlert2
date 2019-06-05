@@ -7,28 +7,31 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 {
     public class SweetAlertService
     {
-
-        private readonly IJSRuntime jSRuntime;
-        private static readonly IDictionary<Guid, TaskCompletionSource<SweetAlertResult>> pendingFireRequests =
+        private static readonly IDictionary<Guid, TaskCompletionSource<SweetAlertResult>> PendingFireRequests =
             new Dictionary<Guid, TaskCompletionSource<SweetAlertResult>>();
 
-        private static readonly IDictionary<Guid, PreConfirmCallback> preConfirmCallbacks =
+        private static readonly IDictionary<Guid, PreConfirmCallback> PreConfirmCallbacks =
             new Dictionary<Guid, PreConfirmCallback>();
 
-        private static readonly IDictionary<Guid, SweetAlertCallback> onOpenCallbacks =
+        private static readonly IDictionary<Guid, SweetAlertCallback> OnOpenCallbacks =
             new Dictionary<Guid, SweetAlertCallback>();
 
-        private static readonly IDictionary<Guid, SweetAlertCallback> onCloseCallbacks =
+        private static readonly IDictionary<Guid, SweetAlertCallback> OnCloseCallbacks =
             new Dictionary<Guid, SweetAlertCallback>();
 
-        private static readonly IDictionary<Guid, SweetAlertCallback> onBeforeOpenCallbacks =
+        private static readonly IDictionary<Guid, SweetAlertCallback> OnBeforeOpenCallbacks =
             new Dictionary<Guid, SweetAlertCallback>();
 
-        private static readonly IDictionary<Guid, SweetAlertCallback> onAfterCloseCallbacks =
+        private static readonly IDictionary<Guid, SweetAlertCallback> OnAfterCloseCallbacks =
+            new Dictionary<Guid, SweetAlertCallback>();
+
+        private static readonly IDictionary<Guid, SweetAlertCallback> OnCompleteCallbacks =
             new Dictionary<Guid, SweetAlertCallback>();
 
         private static readonly IDictionary<Guid, InputValidatorCallback> InputValidatorCallbacks =
             new Dictionary<Guid, InputValidatorCallback>();
+
+        private readonly IJSRuntime jSRuntime;
 
         public SweetAlertService(IJSRuntime jSRuntime)
         {
@@ -46,7 +49,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         {
             var tcs = new TaskCompletionSource<SweetAlertResult>();
             Guid requestId = Guid.NewGuid();
-            pendingFireRequests.Add(requestId, tcs);
+            PendingFireRequests.Add(requestId, tcs);
             await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.Fire", requestId, title, message, type?.ToString());
             return await tcs.Task;
         }
@@ -55,42 +58,23 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static Task ReceiveFireResult(string requestId, SweetAlertResult result)
         {
             var requestGuid = Guid.Parse(requestId);
-            pendingFireRequests.TryGetValue(requestGuid, out TaskCompletionSource<SweetAlertResult> pendingTask);
-            pendingFireRequests.Remove(requestGuid);
+            PendingFireRequests.TryGetValue(requestGuid, out TaskCompletionSource<SweetAlertResult> pendingTask);
+            PendingFireRequests.Remove(requestGuid);
             pendingTask.SetResult(result);
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Function to display a SweetAlert2 modal, with an object of options, all being optional.
+        /// </summary>
+        /// <param name="settings"></param>
         public async Task<SweetAlertResult> FireAsync(SweetAlertOptions settings)
         {
             var tcs = new TaskCompletionSource<SweetAlertResult>();
             Guid requestId = Guid.NewGuid();
-            pendingFireRequests.Add(requestId, tcs);
+            PendingFireRequests.Add(requestId, tcs);
 
-            if (settings.PreConfirm != null)
-            {
-                preConfirmCallbacks.Add(requestId, settings.PreConfirm);
-            }
-            if (settings.InputValidator != null)
-            {
-                InputValidatorCallbacks.Add(requestId, settings.InputValidator);
-            }
-            if (settings.OnOpen != null)
-            {
-                onOpenCallbacks.Add(requestId, settings.OnOpen);
-            }
-            if (settings.OnClose != null)
-            {
-                onCloseCallbacks.Add(requestId, settings.OnClose);
-            }
-            if (settings.OnBeforeOpen != null)
-            {
-                onBeforeOpenCallbacks.Add(requestId, settings.OnBeforeOpen);
-            }
-            if (settings.OnAfterClose != null)
-            {
-                onAfterCloseCallbacks.Add(requestId, settings.OnAfterClose);
-            }
+            AddCallbackToDictionaries(settings, requestId);
 
             await jSRuntime.InvokeAsync<SweetAlertResult>(
                 "CurrieTechnologies.Blazor.SweetAlert2.FireSettings",
@@ -99,11 +83,160 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return await tcs.Task;
         }
 
+        private static void AddCallbackToDictionaries(SweetAlertOptions settings, Guid requestId)
+        {
+            if (settings.PreConfirm != null)
+            {
+                PreConfirmCallbacks.Add(requestId, settings.PreConfirm);
+            }
+
+            if (settings.InputValidator != null)
+            {
+                InputValidatorCallbacks.Add(requestId, settings.InputValidator);
+            }
+
+            if (settings.OnOpen != null)
+            {
+                OnOpenCallbacks.Add(requestId, settings.OnOpen);
+            }
+
+            if (settings.OnClose != null)
+            {
+                OnCloseCallbacks.Add(requestId, settings.OnClose);
+            }
+
+            if (settings.OnBeforeOpen != null)
+            {
+                OnBeforeOpenCallbacks.Add(requestId, settings.OnBeforeOpen);
+            }
+
+            if (settings.OnAfterClose != null)
+            {
+                OnAfterCloseCallbacks.Add(requestId, settings.OnAfterClose);
+            }
+        }
+
+        /// <summary>
+        /// Determines if a modal is shown.
+        /// </summary>
+        public async Task<bool> IsVisibleAsync()
+        {
+            return await jSRuntime.InvokeAsync<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsVisible");
+        }
+
+        /// <summary>
+        /// Closes the currently open SweetAlert2 modal programmatically.
+        /// </summary>
+        /// <param name="onComplete">An optional callback to be called when the alert has finished closing.</param>
+        public async Task CloseAsync(SweetAlertCallback onComplete)
+        {
+            var requestId = Guid.NewGuid();
+            OnCompleteCallbacks.Add(requestId, onComplete);
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.Close", requestId);
+        }
+
+        /// <summary>
+        /// Closes the currently open SweetAlert2 modal programmatically.
+        /// </summary>
+        public async Task CloseAsync()
+        {
+            var requestId = Guid.NewGuid();
+            OnCompleteCallbacks.Add(requestId, null);
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.Close", requestId);
+        }
+
+        /// <summary>
+        /// Updates popup options.
+        /// </summary>
+        /// <param name="newSettings"></param>
+        public async Task UpdateAsync(SweetAlertOptions newSettings)
+        {
+            Guid requestId = Guid.NewGuid();
+            AddCallbackToDictionaries(newSettings, requestId);
+            await jSRuntime.InvokeAsync<SweetAlertResult>(
+                "CurrieTechnologies.Blazor.SweetAlert2.Update",
+                requestId,
+                newSettings.ToPOCO());
+        }
+
+        /// <summary>
+        /// Enables "Confirm" and "Cancel" buttons.
+        /// </summary>
+        public async Task EnableButtonsAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.EnableButtons");
+        }
+
+        /// <summary>
+        /// Disables "Confirm" and "Cancel" buttons.
+        /// </summary>
+        public async Task DisableButtonsAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.DisableButtons");
+        }
+
+        /// <summary>
+        /// Disables buttons and show loader. This is useful with HTML requests.
+        /// </summary>
+        public async Task ShowLoadingAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ShowLoading");
+        }
+
+        /// <summary>
+        /// Enables buttons and hide loader.
+        /// </summary>
+        public async Task HideLoadingAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.HideLoading");
+        }
+
+        /// <summary>
+        /// Determines if modal is in the loading state.
+        /// </summary>
+        public Task<bool> IsLoadingAsync()
+        {
+            return jSRuntime.InvokeAsync<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsLoading");
+        }
+
+        /// <summary>
+        /// Clicks the "Confirm"-button programmatically.
+        /// </summary>
+        public async Task ClickConfirmAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ClickConfirm");
+        }
+
+        /// <summary>
+        /// Clicks the "Cancel"-button programmatically.
+        /// </summary>
+        public async Task ClickCancelAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ClickCancel");
+        }
+
+        /// <summary>
+        /// Shows a validation message.
+        /// </summary>
+        /// <param name="validationMessage">The validation message.</param>
+        public async Task ShowValidationMessageAsync(string validationMessage)
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ShowValidationMessage", validationMessage);
+        }
+
+        /// <summary>
+        /// Hides validation message.
+        /// </summary>
+        public async Task ResetValidationMessageAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ResetValidationMessage");
+        }
+
         [JSInvokable]
         public static Task<dynamic> ReceivePreConfirmInput(string requestId, object inputValue)
         {
             var requestIdGuid = Guid.Parse(requestId);
-            preConfirmCallbacks.TryGetValue(requestIdGuid, out PreConfirmCallback callback);
+            PreConfirmCallbacks.TryGetValue(requestIdGuid, out PreConfirmCallback callback);
             return callback.InvokeAsync(inputValue);
         }
 
@@ -119,7 +252,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static async Task ReceiveOnOpenInput(string requestId)
         {
             var requestIdGuid = Guid.Parse(requestId);
-            onOpenCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
+            OnOpenCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
             await callback.InvokeAsync();
         }
 
@@ -127,7 +260,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static async Task ReceiveOnCloseInput(string requestId)
         {
             var requestIdGuid = Guid.Parse(requestId);
-            onCloseCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
+            OnCloseCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
             await callback.InvokeAsync();
         }
 
@@ -135,7 +268,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static async Task ReceiveOnBeforeOpenInput(string requestId)
         {
             var requestIdGuid = Guid.Parse(requestId);
-            onBeforeOpenCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
+            OnBeforeOpenCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
             await callback.InvokeAsync();
         }
 
@@ -143,10 +276,22 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static async Task ReceiveOnAfterCloseInput(string requestId)
         {
             var requestIdGuid = Guid.Parse(requestId);
-            onAfterCloseCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
+            OnAfterCloseCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
             await callback.InvokeAsync();
         }
 
+        [JSInvokable]
+        public static async Task ReceiveOnCompleteInput(string requestId)
+        {
+            var requestIdGuid = Guid.Parse(requestId);
+            OnCompleteCallbacks.TryGetValue(requestIdGuid, out SweetAlertCallback callback);
+            if (callback != null)
+            {
+                await callback.InvokeAsync();
+            }
+
+            OnCompleteCallbacks.Remove(requestIdGuid);
+        }
 
         /// <summary>
         /// An enum of possible reasons that can explain an alert dismissal.
