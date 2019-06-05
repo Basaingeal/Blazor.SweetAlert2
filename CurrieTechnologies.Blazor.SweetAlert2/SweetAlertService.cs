@@ -232,6 +232,77 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ResetValidationMessage");
         }
 
+        /// <summary>
+        /// Disables the modal input. A disabled input element is unusable and un-clickable.
+        /// </summary>
+        public async Task DisableInputAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.DisableInput");
+        }
+
+        /// <summary>
+        /// Enables the modal input.
+        /// </summary>
+        public async Task EnableInputAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.EnableInput");
+        }
+
+        /// <summary>
+        /// If `timer` parameter is set, returns number of milliseconds of timer remained.
+        /// <para>Otherwise, returns null.</para>
+        /// </summary>
+        public Task<double?> GetTimerLeftAsync()
+        {
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.GetTimerLeft");
+        }
+
+        /// <summary>
+        /// Stop timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public Task<double?> StopTimerAsync()
+        {
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.StopTimer");
+        }
+
+        /// <summary>
+        /// Resume timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public Task<double?> ResumeTimerAsync()
+        {
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.ResumeTimer");
+        }
+
+        /// <summary>
+        /// Toggle timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public Task<double?> ToggleTimerAsync()
+        {
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.ToggleTimer");
+        }
+
+        /// <summary>
+        /// Check if timer is running. Returns true if timer is running, and false is timer is paused / stopped.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public Task<bool?> IsTimmerRunningAsync()
+        {
+            return jSRuntime.InvokeAsync<bool?>("CurrieTechnologies.Blazor.SweetAlert2.IsTimmerRunning");
+        }
+
+        /// <summary>
+        /// Increase timer. Returns number of milliseconds of an updated timer.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        /// <param name="n">The number of milliseconds to add to the currect timer</param>
+        public Task<double?> IncreaseTimerAsync(double n)
+        {
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
+        }
+
         [JSInvokable]
         public static Task<dynamic> ReceivePreConfirmInput(string requestId, object inputValue)
         {

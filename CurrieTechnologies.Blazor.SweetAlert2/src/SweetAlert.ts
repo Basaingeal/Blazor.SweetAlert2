@@ -122,3 +122,35 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.ShowValidationMessage = (validat
 domWindow.CurrieTechnologies.Blazor.SweetAlert2.ResetValidationMessage = (): void => {
   Swal.resetValidationMessage();
 };
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.DisableInput = (): void => {
+  Swal.disableInput();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.EnableInput = (): void => {
+  Swal.enableInput();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.GetTimerLeft = (): number | undefined => {
+  return Swal.getTimerLeft();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.StopTimer = (): number | undefined => {
+  return Swal.stopTimer();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ResumeTimer = (): number | undefined => {
+  return Swal.resumeTimer();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ToggleTimer = (): number | undefined => {
+  return Swal.toggleTimer();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsTimmerRunning = (): boolean | undefined => {
+  return Swal.isTimerRunning();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer = (n: number): number | undefined => {
+  return Swal.increaseTimer(n);
+};

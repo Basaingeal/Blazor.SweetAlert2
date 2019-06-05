@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Michael J. Currie</Copyright>
     <Description>A Blazor JSInterop library for interacting with sweetalert2</Description>
-    <PackageTags>Blazor SweetAlert SweetAlert2</PackageTags>
+    <PackageTags>Blazor SweetAlert SweetAlert2 JSInterop</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>CurrieTechnologies.Blazor.SweetAlert2</AssemblyName>
     <RootNamespace>CurrieTechnologies.Blazor.SweetAlert2</RootNamespace>
