@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Michael J. Currie</Copyright>
     <Description>A Blazor JSInterop library for interacting with sweetalert2</Description>
     <PackageTags>Blazor SweetAlert SweetAlert2</PackageTags>
@@ -17,7 +17,7 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-    <Version>0.1.0</Version>
+    <Version>0.1.0-pre</Version>
     <PackageProjectUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
@@ -46,7 +46,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview5-19227-01" />
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0-preview5.19224.8" />
-    <PackageReference Include="System.Text.Json" Version="4.6.0-preview6.19259.10" />
   </ItemGroup>
 
   <ItemGroup>

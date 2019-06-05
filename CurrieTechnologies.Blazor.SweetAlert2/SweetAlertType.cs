@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
     public sealed class SweetAlertType
     {
         private readonly string name;
-        private readonly int value;
-        private static readonly Dictionary<string, SweetAlertType> instance = new Dictionary<string, SweetAlertType>();
+        private static readonly Dictionary<string, SweetAlertType> instance =
+            new Dictionary<string, SweetAlertType>();
 
-        private SweetAlertType(int value, string name)
+        private SweetAlertType(string name)
         {
             this.name = name;
-            this.value = value;
             instance[name] = this;
         }
 
@@ -34,12 +32,10 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             }
         }
 
-        public static readonly SweetAlertType SUCCESS = new SweetAlertType(1, "success");
-        public static readonly SweetAlertType ERROR = new SweetAlertType(2, "error");
-        public static readonly SweetAlertType WARNING = new SweetAlertType(3, "warning");
-        public static readonly SweetAlertType INFO = new SweetAlertType(4, "info");
-        public static readonly SweetAlertType QUESTION = new SweetAlertType(5, "question");
-
-        
+        public static readonly SweetAlertType SUCCESS = new SweetAlertType("success");
+        public static readonly SweetAlertType ERROR = new SweetAlertType("error");
+        public static readonly SweetAlertType WARNING = new SweetAlertType("warning");
+        public static readonly SweetAlertType INFO = new SweetAlertType("info");
+        public static readonly SweetAlertType QUESTION = new SweetAlertType("question");
     }
 }

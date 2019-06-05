@@ -1,9 +1,7 @@
 using Microsoft.JSInterop;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
@@ -31,13 +29,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         private static readonly IDictionary<Guid, InputValidatorCallback> InputValidatorCallbacks =
             new Dictionary<Guid, InputValidatorCallback>();
-
-        private static readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true
-        };
 
         public SweetAlertService(IJSRuntime jSRuntime)
         {
@@ -76,7 +67,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             Guid requestId = Guid.NewGuid();
             pendingFireRequests.Add(requestId, tcs);
 
-            if(settings.PreConfirm != null)
+            if (settings.PreConfirm != null)
             {
                 preConfirmCallbacks.Add(requestId, settings.PreConfirm);
             }
@@ -101,9 +92,10 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
                 onAfterCloseCallbacks.Add(requestId, settings.OnAfterClose);
             }
 
-            var poco = settings.ToPOCO();
-            string settingsJson = JsonSerializer.ToString(poco, jsonSerializerOptions);
-            await jSRuntime.InvokeAsync<SweetAlertResult>("CurrieTechnologies.Blazor.SweetAlert2.FireSettings", requestId, settingsJson);
+            await jSRuntime.InvokeAsync<SweetAlertResult>(
+                "CurrieTechnologies.Blazor.SweetAlert2.FireSettings",
+                requestId,
+                settings.ToPOCO());
             return await tcs.Task;
         }
 
