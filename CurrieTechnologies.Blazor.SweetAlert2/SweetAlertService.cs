@@ -390,22 +390,25 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public SweetAlertOptions ArgsToParams(IEnumerable<string> paramaters)
         {
-            if(paramaters.Count() > 3 || paramaters.Count() < 1)
+            int paramLength = paramaters.Count();
+            if (paramLength > 3 || paramLength < 1)
             {
                 throw new ArgumentException("parameters can only be 1, 2, or 3 elements long.");
             }
-            var paramList = paramaters.ToList();
+            var paramEnum = paramaters.GetEnumerator();
+            paramEnum.MoveNext();
             var optionsToReturn = new SweetAlertOptions
             {
-                Title = paramList[0]
+                Title = paramEnum.Current
             };
-            if (paramList.Count() > 1)
+
+            if (paramEnum.MoveNext())
             {
-                optionsToReturn.Html = paramList[1];
+                optionsToReturn.Html = paramEnum.Current;
             }
-            if(paramList.Count() > 2)
+            if(paramEnum.MoveNext())
             {
-                optionsToReturn.Type = (SweetAlertType)paramList[2];
+                optionsToReturn.Type = (SweetAlertType)paramEnum.Current;
             }
 
             return optionsToReturn;
