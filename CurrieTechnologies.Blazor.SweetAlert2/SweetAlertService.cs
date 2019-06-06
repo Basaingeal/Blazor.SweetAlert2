@@ -1,6 +1,7 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
@@ -301,6 +302,113 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public Task<double?> IncreaseTimerAsync(double n)
         {
             return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
+        }
+
+        public async Task<SweetAlertResult> QueueAsync(IEnumerable<SweetAlertOptions> steps)
+        {
+            var requestId = Guid.NewGuid();
+            var tcs = new TaskCompletionSource<SweetAlertResult>();
+            PendingFireRequests.Add(requestId, tcs);
+            var tuples = steps.Select(s => (RequestId: Guid.NewGuid(), Step: s));
+            foreach(var (RequestId, Step) in tuples)
+            {
+                AddCallbackToDictionaries(Step, RequestId);
+            }
+
+            await jSRuntime.InvokeAsync<object>(
+                "CurrieTechnologies.Blazor.SweetAlert2.Queue",
+                requestId,
+                tuples.Select(t => t.RequestId),
+                tuples.Select(t => t.Step.ToPOCO()));
+            return await tcs.Task;
+        }
+
+        /// <summary>
+        /// Gets the index of current modal in queue. When there's no active queue, null will be returned.
+        /// </summary>
+        public Task<string> GetQueueStepAsync()
+        {
+            return jSRuntime.InvokeAsync<string>("CurrieTechnologies.Blazor.SweetAlert2.GetQueueStep");
+        }
+
+        /// <summary>
+        /// Inserts a modal in the queue.
+        /// </summary>
+        /// <param name="step">The step configuration (same object as in the Swal.fire() call).</param>
+        /// <param name="index">The index to insert the step at. By default a modal will be added to the end of a queue.</param>
+        public Task<double> InsertQueueStepAsync(SweetAlertOptions step, double? index = null)
+        {
+            var requestId = Guid.NewGuid();
+            AddCallbackToDictionaries(step, requestId);
+            return jSRuntime.InvokeAsync<double>("CurrieTechnologies.Blazor.SweetAlert2.InsertQueueStep", requestId, step.ToPOCO(), index);
+        }
+
+        /// <summary>
+        /// Deletes the modal at the specified index in the queue.
+        /// </summary>
+        /// <param name="index">The modal index in the queue.</param>
+        public async Task DeleteQueueStepAsync(double index)
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.DeleteQueueStep", index);
+        }
+
+        /// <summary>
+        /// Shows progress steps.
+        /// </summary>
+        public async Task ShowProgressStepsAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ShowProgressSteps");
+        }
+
+        /// <summary>
+        /// Shows progress steps.
+        /// </summary>
+        public async Task HideProgressStepsAsync()
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.HideProgressSteps");
+        }
+
+        /// <summary>
+        /// Determines if a given parameter name is valid.
+        /// </summary>
+        /// <param name="paramName">The parameter to check.</param>
+        /// <returns></returns>
+        public Task<bool> IsValidParamterAsync(string paramName)
+        {
+            return jSRuntime.InvokeAsync<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsValidParamter", paramName);
+        }
+
+        /// <summary>
+        /// Determines if a given parameter name is valid for Swal.update() method.
+        /// </summary>
+        /// <param name="paramName">The parameter to check.</param>
+        /// <returns></returns>
+        public Task<bool> IsUpdatableParamterAsync(string paramName)
+        {
+            return jSRuntime.InvokeAsync<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsUpdatableParamter", paramName);
+        }
+
+        public SweetAlertOptions ArgsToParams(IEnumerable<string> paramaters)
+        {
+            if(paramaters.Count() > 3 || paramaters.Count() < 1)
+            {
+                throw new ArgumentException("parameters can only be 1, 2, or 3 elements long.");
+            }
+            var paramList = paramaters.ToList();
+            var optionsToReturn = new SweetAlertOptions
+            {
+                Title = paramList[0]
+            };
+            if (paramList.Count() > 1)
+            {
+                optionsToReturn.Html = paramList[1];
+            }
+            if(paramList.Count() > 2)
+            {
+                optionsToReturn.Type = (SweetAlertType)paramList[2];
+            }
+
+            return optionsToReturn;
         }
 
         [JSInvokable]

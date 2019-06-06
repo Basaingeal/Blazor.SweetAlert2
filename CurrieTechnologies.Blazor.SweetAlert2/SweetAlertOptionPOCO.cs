@@ -98,11 +98,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public string InputValue { get; set; }
 
-        public Dictionary<string, string> InputOptions { get; set; }
+        public IDictionary<string, string> InputOptions { get; set; }
 
         public bool? InputAutoTrim { get; set; }
 
-        public Dictionary<string, string> InputAttributes { get; set; }
+        public IDictionary<string, string> InputAttributes { get; set; }
 
         public bool InputValidator { get; set; }
 

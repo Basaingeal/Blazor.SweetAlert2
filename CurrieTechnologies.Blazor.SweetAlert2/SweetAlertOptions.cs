@@ -61,11 +61,10 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public string Target { get; set; } = "body";
 
-        // TODO: Type-Safe Enum for input
         /// <summary>
         /// Input field type, can be text, email, password, number, tel, range, textarea, select, radio, checkbox, file and url.
         /// </summary>
-        public string Input { get; set; } = null;
+        public SweetAlertInputType Input { get; set; } = null;
 
         /// <summary>
         /// Modal window width, including paddings (box-sizing: border-box). Can be in px or %.
@@ -82,18 +81,17 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public string Background { get; set; } = "#fff";
 
-        // TODO: Type-Safe Enum for Position
         /// <summary>
         /// Modal window position
         /// </summary>
-        public string Position { get; set; } = "center";
+        public SweetAlertPosition Position { get; set; } = SweetAlertPosition.CENTER;
 
         //TODO: Type-safe enum for grow.
         //TODO: On client, switch null to false.
         /// <summary>
         /// Modal window grow direction
         /// </summary>
-        public string Grow { get; set; } = null;
+        public SweetAlertGrowDirection Grow { get; set; } = null;
 
         /// <summary>
         /// A custom CSS class for the modal.
@@ -264,7 +262,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// If input parameter is set to "select" or "radio", you can provide options.
         /// <para>Object keys will represent options values, object values will represent options text values.</para>
         /// </summary>
-        public Dictionary<string, string> InputOptions { get; set; }
+        public IDictionary<string, string> InputOptions { get; set; }
 
         /// <summary>
         /// Automatically remove whitespaces from both ends of a result string.
@@ -276,7 +274,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <summary>
         /// HTML input attributes (e.g. min, max, step, accept...), that are added to the input field.
         /// </summary>
-        public Dictionary<string, string> InputAttributes { get; set; } = null;
+        public IDictionary<string, string> InputAttributes { get; set; } = null;
 
         /// <summary>
         /// Validator for input field.
@@ -338,16 +336,16 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
                 Text = Text,
                 Html = Html,
                 Footer = Footer,
-                Type = Type.ToString(),
+                Type = Type?.ToString(),
                 Backdrop = Backdrop,
                 Toast = Toast,
                 Target = Target,
-                Input = Input,
+                Input = Input.ToString(),
                 Width = Width,
                 Padding = Padding,
                 Background = Background,
-                Position = Position,
-                Grow = Grow,
+                Position = Position?.ToString(),
+                Grow = Grow?.ToString(),
                 CustomClass = CustomClass,
                 Timer = Timer,
                 Animation = Animation,

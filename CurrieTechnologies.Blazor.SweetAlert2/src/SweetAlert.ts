@@ -1,4 +1,5 @@
 ﻿import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from "sweetalert2";
+import ISimpleSweetAlertOptions from "./SimpleSweetAlertOptions";
 
 declare var DotNet: any;
 const domWindow = window as any;
@@ -36,8 +37,8 @@ function dispatchOnComplete(requestId: string): void {
   DotNet.invokeMethodAsync(namespace, "ReceiveOnCompleteInput", requestId);
 }
 
-function getSwalSettingsFromJsonString(settings: any, requestId: string): SweetAlertOptions {
-  const swalSettings = settings as SweetAlertOptions;
+function getSwalSettingsFromPoco(settings: ISimpleSweetAlertOptions, requestId: string): SweetAlertOptions {
+  const swalSettings = (settings as any) as SweetAlertOptions;
   swalSettings.preConfirm = settings.preConfirm ? (inputValue) => dispatchPreConfirm(requestId, inputValue) : null;
   swalSettings.inputValidator = settings.inputValidator
     ? (inputValue) => dispatchInputValidator(requestId, inputValue)
@@ -46,6 +47,7 @@ function getSwalSettingsFromJsonString(settings: any, requestId: string): SweetA
   swalSettings.onAfterClose = settings.onAfterClose ? () => dispatchOnAfterClose(requestId) : null;
   swalSettings.onOpen = settings.onOpen ? () => dispatchOnOpen(requestId) : null;
   swalSettings.onClose = settings.onClose ? () => dispatchOnClose(requestId) : null;
+  swalSettings.grow = settings.grow === "false" ? false : settings.grow;
   return swalSettings;
 }
 
@@ -63,10 +65,26 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Fire = async (
   await dispatchFireResult(requestId, result);
 };
 
-domWindow.CurrieTechnologies.Blazor.SweetAlert2.FireSettings = async (requestId: string, settingsJson: any) => {
-  const swalSettings = getSwalSettingsFromJsonString(settingsJson, requestId);
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.FireSettings = async (
+  requestId: string,
+  settingsPoco: ISimpleSweetAlertOptions,
+) => {
+  const swalSettings = getSwalSettingsFromPoco(settingsPoco, requestId);
 
   const result = await Swal.fire(swalSettings);
+  await dispatchFireResult(requestId, result);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.Queue = async (
+  requestId: string,
+  optionIds: string[],
+  steps: ISimpleSweetAlertOptions[],
+) => {
+  const arrSwalSettings: SweetAlertOptions[] = optionIds.map((optionId, i) =>
+    getSwalSettingsFromPoco(steps[i], optionId),
+  );
+
+  const result = await Swal.queue(arrSwalSettings);
   await dispatchFireResult(requestId, result);
 };
 
@@ -74,8 +92,11 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsVisible = (): boolean => {
   return !!Swal.isVisible();
 };
 
-domWindow.CurrieTechnologies.Blazor.SweetAlert2.Update = async (requestId: string, settingsJson: any) => {
-  const swalSettings = getSwalSettingsFromJsonString(settingsJson, requestId);
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.Update = async (
+  requestId: string,
+  settingsPoco: ISimpleSweetAlertOptions,
+) => {
+  const swalSettings = getSwalSettingsFromPoco(settingsPoco, requestId);
   Swal.update(swalSettings);
 };
 
@@ -149,4 +170,37 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsTimmerRunning = (): boolean | 
 
 domWindow.CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer = (n: number): number | undefined => {
   return Swal.increaseTimer(n);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.GetQueueStep = (): string => {
+  return Swal.getQueueStep();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.InsertQueueStep = (
+  requestId: string,
+  step: ISimpleSweetAlertOptions,
+  index?: number,
+): number => {
+  const stepSettings = getSwalSettingsFromPoco(step, requestId);
+  return Swal.insertQueueStep(stepSettings, index);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.DeleteQueueStep = (index: number): void => {
+  Swal.deleteQueueStep(index);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.ShowProgressSteps = (): void => {
+  Swal.showProgressSteps();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.HideProgressSteps = (): void => {
+  Swal.hideProgressSteps();
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsValidParamter = (paramName: string): boolean => {
+  return Swal.isValidParameter(paramName);
+};
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsUpdatableParamter = (paramName: string): boolean => {
+  return Swal.isUpdatableParameter(paramName);
 };
