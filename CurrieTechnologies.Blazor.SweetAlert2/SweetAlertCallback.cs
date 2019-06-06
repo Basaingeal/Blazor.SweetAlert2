@@ -11,6 +11,8 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
     /// </summary>
     public class SweetAlertCallback
     {
+        private readonly Action syncCallback;
+        private readonly Func<Task> asyncCallback;
         private readonly EventCallback eventCallback;
 
         /// <summary>
@@ -20,16 +22,36 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="callback">The event callback.</param>
         public SweetAlertCallback(object receiver, Action callback)
         {
-            this.eventCallback = EventCallback.Factory.Create(receiver, callback);
+            this.syncCallback = callback;
+            this.eventCallback = EventCallback.Factory.Create(receiver, () => { });
+        }
+
+        /// <summary>
+        /// Creates a <see cref="SweetAlertCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
+        /// </summary>
+        /// <param name="receiver">The event receiver. Pass in `this` from the calling component.</param>
+        /// <param name="callback">The event callback.</param>
+        public SweetAlertCallback(object receiver, Func<Task> callback)
+        {
+            this.asyncCallback = callback;
+            this.eventCallback = EventCallback.Factory.Create(receiver, () => { });
         }
 
         /// <summary>
         /// Invokes the delage associated with this binding and dispatches an event notification to the appropriate component.
         /// </summary>
         /// <returns></returns>
-        public Task InvokeAsync()
+        public async Task InvokeAsync()
         {
-            return this.eventCallback.InvokeAsync(null);
+            if (this.asyncCallback != null)
+            {
+                await this.asyncCallback();
+            }
+            else
+            {
+                this.syncCallback();
+            }
+            await eventCallback.InvokeAsync(null);
         }
     }
 }

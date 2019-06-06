@@ -36,13 +36,9 @@ function dispatchOnComplete(requestId: string): void {
   DotNet.invokeMethodAsync(namespace, "ReceiveOnCompleteInput", requestId);
 }
 
-function getSwalSettingsFromJsonString(jsonString: string, requestId: string): SweetAlertOptions {
-  const settings = JSON.parse(jsonString);
-
+function getSwalSettingsFromJsonString(settings: any, requestId: string): SweetAlertOptions {
   const swalSettings = settings as SweetAlertOptions;
-  swalSettings.preConfirm = settings.preConfirm
-    ? (inputValue) => dispatchPreConfirm(requestId, inputValue)
-    : null;
+  swalSettings.preConfirm = settings.preConfirm ? (inputValue) => dispatchPreConfirm(requestId, inputValue) : null;
   swalSettings.inputValidator = settings.inputValidator
     ? (inputValue) => dispatchInputValidator(requestId, inputValue)
     : null;
@@ -67,7 +63,7 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Fire = async (
   await dispatchFireResult(requestId, result);
 };
 
-domWindow.CurrieTechnologies.Blazor.SweetAlert2.FireSettings = async (requestId: string, settingsJson: string) => {
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.FireSettings = async (requestId: string, settingsJson: any) => {
   const swalSettings = getSwalSettingsFromJsonString(settingsJson, requestId);
 
   const result = await Swal.fire(swalSettings);
@@ -78,7 +74,7 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsVisible = (): boolean => {
   return !!Swal.isVisible();
 };
 
-domWindow.CurrieTechnologies.Blazor.SweetAlert2.Update = async (requestId: string, settingsJson: string) => {
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.Update = async (requestId: string, settingsJson: any) => {
   const swalSettings = getSwalSettingsFromJsonString(settingsJson, requestId);
   Swal.update(swalSettings);
 };
