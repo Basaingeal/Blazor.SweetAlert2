@@ -3,7 +3,7 @@
 module.exports = {
   entry: './src/SweetAlert.ts',
   output: {
-    filename: 'SweetAlert.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'content')
   },
   module: {
@@ -18,5 +18,10 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  }
 };
