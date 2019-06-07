@@ -1,24 +1,55 @@
-﻿import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from "sweetalert2";
+﻿import { flatten } from "lodash";
+import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from "sweetalert2";
 import ISimpleSweetAlertOptions from "./SimpleSweetAlertOptions";
 import ISweetAlertQueueResult from "./SweetAlertQueueResult";
+import ISweetAlertResult from "./SweetAlertResult";
 
 declare var DotNet: any;
 const domWindow = window as any;
 const namespace: string = "CurrieTechnologies.Blazor.SweetAlert2";
 
+function getEnumNumber(enumString: string): number {
+  if (enumString === "cancel") {
+    return 0;
+  }
+  if (enumString === "backdrop") {
+    return 1;
+  }
+  if (enumString === "close") {
+    return 2;
+  }
+  if (enumString === "esc") {
+    return 3;
+  }
+  if (enumString === "timer") {
+    return 4;
+  }
+  return 0;
+}
+
+function getStringVerison(input: any): string {
+  if (input instanceof Object) {
+    return JSON.stringify(input);
+  }
+  return input.toString();
+}
+
 function dispatchFireResult(requestId: string, result: SweetAlertResult): Promise<void> {
-  result.value = result.value.toString();
-  return DotNet.invokeMethodAsync(namespace, "ReceiveFireResult", requestId, result);
+  const myResult = (result as any) as ISweetAlertResult;
+  myResult.value = myResult.value ? getStringVerison(myResult.value) : null;
+  myResult.dismiss = myResult.dismiss ? getEnumNumber(result.dismiss.toString()) : null;
+  return DotNet.invokeMethodAsync(namespace, "ReceiveFireResult", requestId, myResult);
 }
 
 function dispatchQueueResult(requestId: string, result: SweetAlertResult): Promise<void> {
   const queueResult = result as ISweetAlertQueueResult;
-  queueResult.value = queueResult.value.map((v) => v.toString());
+  queueResult.value = result.value ? flatten(result.value).map((v: any) => (v ? getStringVerison(v) : null)) : null;
+  queueResult.dismiss = queueResult.dismiss ? getEnumNumber(result.dismiss.toString()) : null;
   return DotNet.invokeMethodAsync(namespace, "ReceiveQueueResult", requestId, queueResult);
 }
 
 function dispatchPreConfirm(requestId: string, inputValue: any): Promise<any> {
-  return DotNet.invokeMethodAsync(namespace, "ReceivePreConfirmInput", requestId, inputValue.toString());
+  return DotNet.invokeMethodAsync(namespace, "ReceivePreConfirmInput", requestId, getStringVerison(inputValue));
 }
 
 function dispatchQueuePreConfirm(requestId: string, inputValue: any): Promise<any> {
@@ -28,7 +59,7 @@ function dispatchQueuePreConfirm(requestId: string, inputValue: any): Promise<an
     namespace,
     "ReceivePreConfirmQueueInput",
     requestId,
-    valArray.map((v) => v.toString()),
+    valArray.map((v) => getStringVerison(v)),
   );
 }
 

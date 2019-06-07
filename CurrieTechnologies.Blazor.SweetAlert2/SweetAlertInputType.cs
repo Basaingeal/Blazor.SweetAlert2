@@ -17,7 +17,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             Instance[name] = this;
         }
 
-        public static explicit operator SweetAlertInputType(string str)
+        public static implicit operator SweetAlertInputType(string str)
         {
             if (Instance.TryGetValue(str, out SweetAlertInputType result))
             {
@@ -44,7 +44,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static readonly SweetAlertInputType SELECT = new SweetAlertInputType("select");
         public static readonly SweetAlertInputType RADIO = new SweetAlertInputType("radio");
         public static readonly SweetAlertInputType CHECKBOX = new SweetAlertInputType("checkbox");
-        public static readonly SweetAlertInputType FILE = new SweetAlertInputType("file");
+        internal static readonly SweetAlertInputType FILE = new SweetAlertInputType("file");
         public static readonly SweetAlertInputType URL = new SweetAlertInputType("url");
     }
 }

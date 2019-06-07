@@ -15,7 +15,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             Instance[name] = this;
         }
 
-        public static explicit operator SweetAlertType(string str)
+        public static implicit operator SweetAlertType(string str)
         {
             if (Instance.TryGetValue(str, out SweetAlertType result))
             {

@@ -17,7 +17,8 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             Instance[name] = this;
         }
 
-        public static explicit operator SweetAlertGrowDirection(string str)
+
+        public static implicit operator SweetAlertGrowDirection(string str)
         {
             if (Instance.TryGetValue(str, out SweetAlertGrowDirection result))
             {
@@ -26,6 +27,18 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             else
             {
                 throw new InvalidCastException();
+            }
+        }
+
+        public static implicit operator SweetAlertGrowDirection(bool boolean)
+        {
+            if (boolean)
+            {
+                throw new InvalidCastException();
+            }
+            else
+            {
+                return FALSE;
             }
         }
 

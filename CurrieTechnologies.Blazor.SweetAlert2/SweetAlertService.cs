@@ -81,6 +81,15 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <summary>
         /// Function to display a SweetAlert2 modal, with an object of options, all being optional.
         /// </summary>
+        /// <example>
+        /// <code>
+        /// Swal.FireAsync(new SweetAlertOptions {
+        ///     Title = "Auto close alert!",
+        ///     Text = "I will close in 2 seconds.",
+        ///     Timer = 2000
+        /// });
+        /// </code>
+        /// </example>
         /// <param name="settings"></param>
         public async Task<SweetAlertResult> FireAsync(SweetAlertOptions settings)
         {
@@ -130,6 +139,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             }
         }
 
+        /// <summary>
+        /// Reuse configuration by creating a Swal instance.
+        /// </summary>
+        /// <param name="settings">The default options to set for this instance.</param>
+        /// <returns></returns>
         public SweetAlertMixin Mixin(SweetAlertOptions settings)
         {
             return new SweetAlertMixin(settings, this);
@@ -322,6 +336,10 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
         }
 
+        /// <summary>
+        /// Provide an array of SweetAlert2 parameters to show multiple modals, one modal after another.
+        /// </summary>
+        /// <param name="steps">The steps' configuration.</param>
         public async Task<SweetAlertQueueResult> QueueAsync(IEnumerable<SweetAlertOptions> steps)
         {
             var requestId = Guid.NewGuid();
