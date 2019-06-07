@@ -18,9 +18,9 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public string Type { get; set; }
 
-        public bool Backdrop { get; set; }
+        public bool? Backdrop { get; set; }
 
-        public bool Toast { get; set; }
+        public bool? Toast { get; set; }
 
         public string Target { get; set; }
 

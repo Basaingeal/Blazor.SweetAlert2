@@ -87,27 +87,70 @@ function dispatchOnComplete(requestId: string): void {
   DotNet.invokeMethodAsync(namespace, "ReceiveOnCompleteInput", requestId);
 }
 
+function cleanSettings(settings: ISimpleSweetAlertOptions): ISimpleSweetAlertOptions {
+  const settingsToReturn: any = { ...settings } as any;
+  for (const propName in settingsToReturn) {
+    if (settingsToReturn[propName] === null || settingsToReturn[propName] === undefined) {
+      delete settingsToReturn[propName];
+    }
+  }
+
+  return settingsToReturn as ISimpleSweetAlertOptions;
+}
+
 function getSwalSettingsFromPoco(
   settings: ISimpleSweetAlertOptions,
   requestId: string,
   isQueue: boolean,
 ): SweetAlertOptions {
-  const swalSettings = (settings as any) as SweetAlertOptions;
+  const swalSettings = (cleanSettings(settings) as any) as SweetAlertOptions;
 
   if (settings.preConfirm) {
     swalSettings.preConfirm = isQueue
       ? (inputValue) => dispatchQueuePreConfirm(requestId, inputValue)
       : (inputValue) => dispatchPreConfirm(requestId, inputValue);
+  } else {
+    delete swalSettings.preConfirm;
   }
 
-  swalSettings.inputValidator = settings.inputValidator
-    ? (inputValue) => dispatchInputValidator(requestId, inputValue)
-    : null;
-  swalSettings.onBeforeOpen = settings.onBeforeOpen ? () => dispatchOnBeforeOpen(requestId) : null;
-  swalSettings.onAfterClose = settings.onAfterClose ? () => dispatchOnAfterClose(requestId) : null;
-  swalSettings.onOpen = settings.onOpen ? () => dispatchOnOpen(requestId) : null;
-  swalSettings.onClose = settings.onClose ? () => dispatchOnClose(requestId) : null;
-  swalSettings.grow = settings.grow === "false" ? false : settings.grow;
+  if (settings.inputValidator) {
+    swalSettings.inputValidator = (inputValue) => dispatchInputValidator(requestId, inputValue);
+  } else {
+    delete swalSettings.inputValidator;
+  }
+
+  if (settings.onBeforeOpen) {
+    swalSettings.onBeforeOpen = () => dispatchOnBeforeOpen(requestId);
+  } else {
+    delete swalSettings.onBeforeOpen;
+  }
+
+  if (settings.onAfterClose) {
+    swalSettings.onAfterClose = () => dispatchOnAfterClose(requestId);
+  } else {
+    delete swalSettings.onAfterClose;
+  }
+
+  if (settings.onOpen) {
+    swalSettings.onOpen = () => dispatchOnOpen(requestId);
+  } else {
+    delete swalSettings.onOpen;
+  }
+
+  if (settings.onClose) {
+    swalSettings.onClose = () => dispatchOnClose(requestId);
+  } else {
+    delete swalSettings.onClose;
+  }
+
+  if (settings.grow === "false") {
+    swalSettings.grow = false;
+  } else if (settings.grow == null) {
+    delete swalSettings.grow;
+  } else {
+    swalSettings.grow = settings.grow;
+  }
+
   return swalSettings;
 }
 
@@ -121,7 +164,10 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Fire = async (
   message: string,
   type: SweetAlertType,
 ) => {
-  const result = await Swal.fire(title, message, type);
+  let params: [string] | [string, string] | [string, string, string] = [title];
+  params = message ? [...params, message] as [string, string] : [...params, ""] as [string, string];
+  params = type ? [...params, type.toString()] as [string, string, string] : params;
+  const result = await Swal.fire(Swal.argsToParams(params));
   await dispatchFireResult(requestId, result);
 };
 
