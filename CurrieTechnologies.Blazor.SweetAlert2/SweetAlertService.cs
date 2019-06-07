@@ -11,6 +11,9 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         private static readonly IDictionary<Guid, TaskCompletionSource<SweetAlertResult>> PendingFireRequests =
             new Dictionary<Guid, TaskCompletionSource<SweetAlertResult>>();
 
+        private static readonly IDictionary<Guid, TaskCompletionSource<SweetAlertQueueResult>> PendingQueueRequests =
+            new Dictionary<Guid, TaskCompletionSource<SweetAlertQueueResult>>();
+
         private static readonly IDictionary<Guid, PreConfirmCallback> PreConfirmCallbacks =
             new Dictionary<Guid, PreConfirmCallback>();
 
@@ -65,6 +68,16 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return Task.CompletedTask;
         }
 
+        [JSInvokable]
+        public static Task ReceiveQueueResult(string requestId, SweetAlertQueueResult result)
+        {
+            var requestGuid = Guid.Parse(requestId);
+            PendingQueueRequests.TryGetValue(requestGuid, out TaskCompletionSource<SweetAlertQueueResult> pendingTask);
+            PendingQueueRequests.Remove(requestGuid);
+            pendingTask.SetResult(result);
+            return Task.CompletedTask;
+        }
+
         /// <summary>
         /// Function to display a SweetAlert2 modal, with an object of options, all being optional.
         /// </summary>
@@ -115,6 +128,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             {
                 OnAfterCloseCallbacks.Add(requestId, settings.OnAfterClose);
             }
+        }
+
+        public SweetAlertMixin Mixin(SweetAlertOptions settings)
+        {
+            return new SweetAlertMixin(settings, this);
         }
 
         /// <summary>
@@ -304,12 +322,12 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
         }
 
-        public async Task<SweetAlertResult> QueueAsync(IEnumerable<SweetAlertOptions> steps)
+        public async Task<SweetAlertQueueResult> QueueAsync(IEnumerable<SweetAlertOptions> steps)
         {
             var requestId = Guid.NewGuid();
-            var tcs = new TaskCompletionSource<SweetAlertResult>();
-            PendingFireRequests.Add(requestId, tcs);
-            var tuples = steps.Select(s => (RequestId: Guid.NewGuid(), Step: s));
+            var tcs = new TaskCompletionSource<SweetAlertQueueResult>();
+            PendingQueueRequests.Add(requestId, tcs);
+            var tuples = steps.Select(s => (RequestId: Guid.NewGuid(), Step: s)).ToList();
             foreach(var (RequestId, Step) in tuples)
             {
                 AddCallbackToDictionaries(Step, RequestId);
@@ -318,7 +336,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             await jSRuntime.InvokeAsync<object>(
                 "CurrieTechnologies.Blazor.SweetAlert2.Queue",
                 requestId,
-                tuples.Select(t => t.RequestId),
+                tuples.Select(t => t.RequestId).ToArray(),
                 tuples.Select(t => t.Step.ToPOCO()));
             return await tcs.Task;
         }
@@ -388,6 +406,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return jSRuntime.InvokeAsync<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsUpdatableParamter", paramName);
         }
 
+        /// <summary>
+        /// Normalizes the arguments you can give to Swal.fire() in an object of type SweetAlertOptions.
+        /// </summary>
+        /// <param name="paramaters">The array of arguments to normalize.</param>
+        /// <exception cref="ArgumentException">Thrown if parameters is not 1, 2, or 3 elements long.</exception>
         public SweetAlertOptions ArgsToParams(IEnumerable<string> paramaters)
         {
             int paramLength = paramaters.Count();
@@ -415,7 +438,15 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         }
 
         [JSInvokable]
-        public static Task<dynamic> ReceivePreConfirmInput(string requestId, object inputValue)
+        public static Task<string> ReceivePreConfirmInput(string requestId, string inputValue)
+        {
+            var requestIdGuid = Guid.Parse(requestId);
+            PreConfirmCallbacks.TryGetValue(requestIdGuid, out PreConfirmCallback callback);
+            return callback.InvokeAsync(inputValue);
+        }
+
+        [JSInvokable]
+        public static Task<IEnumerable<string>> ReceivePreConfirmQueueInput(string requestId, IEnumerable<string> inputValue)
         {
             var requestIdGuid = Guid.Parse(requestId);
             PreConfirmCallbacks.TryGetValue(requestIdGuid, out PreConfirmCallback callback);

@@ -38,7 +38,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         }
 
         /// <summary>
-        /// Invokes the delage associated with this binding and dispatches an event notification to the appropriate component.
+        /// Invokes the delegate associated with this binding and dispatches an event notification to the appropriate component.
         /// </summary>
         /// <returns></returns>
         public async Task InvokeAsync()

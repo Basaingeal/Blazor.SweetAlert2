@@ -1,16 +1,35 @@
 ﻿import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from "sweetalert2";
 import ISimpleSweetAlertOptions from "./SimpleSweetAlertOptions";
+import ISweetAlertQueueResult from "./SweetAlertQueueResult";
 
 declare var DotNet: any;
 const domWindow = window as any;
 const namespace: string = "CurrieTechnologies.Blazor.SweetAlert2";
 
 function dispatchFireResult(requestId: string, result: SweetAlertResult): Promise<void> {
+  result.value = result.value.toString();
   return DotNet.invokeMethodAsync(namespace, "ReceiveFireResult", requestId, result);
 }
 
+function dispatchQueueResult(requestId: string, result: SweetAlertResult): Promise<void> {
+  const queueResult = result as ISweetAlertQueueResult;
+  queueResult.value = queueResult.value.map((v) => v.toString());
+  return DotNet.invokeMethodAsync(namespace, "ReceiveQueueResult", requestId, queueResult);
+}
+
 function dispatchPreConfirm(requestId: string, inputValue: any): Promise<any> {
-  return DotNet.invokeMethodAsync(namespace, "ReceivePreConfirmInput", requestId, inputValue);
+  return DotNet.invokeMethodAsync(namespace, "ReceivePreConfirmInput", requestId, inputValue.toString());
+}
+
+function dispatchQueuePreConfirm(requestId: string, inputValue: any): Promise<any> {
+  const valArray: any[] = Array.isArray(inputValue) ? inputValue : [inputValue];
+
+  return DotNet.invokeMethodAsync(
+    namespace,
+    "ReceivePreConfirmQueueInput",
+    requestId,
+    valArray.map((v) => v.toString()),
+  );
 }
 
 function dispatchInputValidator(requestId: string, inputValue: any): Promise<string> {
@@ -37,9 +56,19 @@ function dispatchOnComplete(requestId: string): void {
   DotNet.invokeMethodAsync(namespace, "ReceiveOnCompleteInput", requestId);
 }
 
-function getSwalSettingsFromPoco(settings: ISimpleSweetAlertOptions, requestId: string): SweetAlertOptions {
+function getSwalSettingsFromPoco(
+  settings: ISimpleSweetAlertOptions,
+  requestId: string,
+  isQueue: boolean,
+): SweetAlertOptions {
   const swalSettings = (settings as any) as SweetAlertOptions;
-  swalSettings.preConfirm = settings.preConfirm ? (inputValue) => dispatchPreConfirm(requestId, inputValue) : null;
+
+  if (settings.preConfirm) {
+    swalSettings.preConfirm = isQueue
+      ? (inputValue) => dispatchQueuePreConfirm(requestId, inputValue)
+      : (inputValue) => dispatchPreConfirm(requestId, inputValue);
+  }
+
   swalSettings.inputValidator = settings.inputValidator
     ? (inputValue) => dispatchInputValidator(requestId, inputValue)
     : null;
@@ -69,7 +98,7 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.FireSettings = async (
   requestId: string,
   settingsPoco: ISimpleSweetAlertOptions,
 ) => {
-  const swalSettings = getSwalSettingsFromPoco(settingsPoco, requestId);
+  const swalSettings = getSwalSettingsFromPoco(settingsPoco, requestId, false);
 
   const result = await Swal.fire(swalSettings);
   await dispatchFireResult(requestId, result);
@@ -81,11 +110,11 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Queue = async (
   steps: ISimpleSweetAlertOptions[],
 ) => {
   const arrSwalSettings: SweetAlertOptions[] = optionIds.map((optionId, i) =>
-    getSwalSettingsFromPoco(steps[i], optionId),
+    getSwalSettingsFromPoco(steps[i], optionId, true),
   );
 
   const result = await Swal.queue(arrSwalSettings);
-  await dispatchFireResult(requestId, result);
+  await dispatchQueueResult(requestId, result);
 };
 
 domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsVisible = (): boolean => {
@@ -96,7 +125,7 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Update = async (
   requestId: string,
   settingsPoco: ISimpleSweetAlertOptions,
 ) => {
-  const swalSettings = getSwalSettingsFromPoco(settingsPoco, requestId);
+  const swalSettings = getSwalSettingsFromPoco(settingsPoco, requestId, false);
   Swal.update(swalSettings);
 };
 
@@ -181,7 +210,7 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.InsertQueueStep = (
   step: ISimpleSweetAlertOptions,
   index?: number,
 ): number => {
-  const stepSettings = getSwalSettingsFromPoco(step, requestId);
+  const stepSettings = getSwalSettingsFromPoco(step, requestId, true);
   return Swal.insertQueueStep(stepSettings, index);
 };
 

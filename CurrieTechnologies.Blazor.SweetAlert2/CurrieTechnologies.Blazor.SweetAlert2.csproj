@@ -34,6 +34,8 @@
     <Authors>Michael J. Currie</Authors>
 
     <NeutralLanguage></NeutralLanguage>
+
+    <PackageIconUrl>https://sweetalert2.github.io/images/swal2-logo.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

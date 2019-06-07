@@ -222,9 +222,9 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public bool? ShowLoaderOnConfirm { get; set; } = false;
 
-        //TODO: Remove if impossible
         /// <summary>
         /// Function to execute before confirm.
+        /// <para>Receives the value from the request, and returns a new value for the request.</para>
         /// </summary>
         public PreConfirmCallback PreConfirm { get; set; } = null;
 
@@ -326,6 +326,15 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public bool? ScrollbarPadding { get; set; } = true;
 
+        public SweetAlertOptions()
+        {
+
+        }
+
+        public SweetAlertOptions(string title)
+        {
+            Title = title;
+        }
 
         internal SweetAlertOptionPOCO ToPOCO()
         {
@@ -340,7 +349,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
                 Backdrop = Backdrop,
                 Toast = Toast,
                 Target = Target,
-                Input = Input.ToString(),
+                Input = Input?.ToString(),
                 Width = Width,
                 Padding = Padding,
                 Background = Background,

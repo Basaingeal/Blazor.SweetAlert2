@@ -4,9 +4,9 @@ using System.Text;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
-    public class SweetAlertResult
+    public class SweetAlertQueueResult
     {
-        public string Value { get; set; }
+        public IEnumerable<string> Value { get; set; }
         public SweetAlertService.DismissReason Dismiss { get; set; }
     }
 }
