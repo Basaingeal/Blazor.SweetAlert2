@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
@@ -51,5 +50,5 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static readonly SweetAlertPosition BOTTOM_RIGHT = new SweetAlertPosition("bottom-right");
     }
 
-    
+
 }

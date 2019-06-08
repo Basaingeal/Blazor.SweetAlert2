@@ -352,7 +352,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             var tcs = new TaskCompletionSource<SweetAlertQueueResult>();
             PendingQueueRequests.Add(requestId, tcs);
             var tuples = steps.Select(s => (RequestId: Guid.NewGuid(), Step: s)).ToList();
-            foreach(var (RequestId, Step) in tuples)
+            foreach (var (RequestId, Step) in tuples)
             {
                 AddCallbackToDictionaries(Step, RequestId);
             }
@@ -453,7 +453,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             {
                 optionsToReturn.Html = paramEnum.Current;
             }
-            if(paramEnum.MoveNext())
+            if (paramEnum.MoveNext())
             {
                 optionsToReturn.Type = (SweetAlertType)paramEnum.Current;
             }

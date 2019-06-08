@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
@@ -74,17 +73,18 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         /// <param name="arg">The argument.</param>
         /// <exception cref="ArgumentException">Thrown if used in Queue request.</exception>
-        public async Task<string> InvokeAsync (string arg)
+        public async Task<string> InvokeAsync(string arg)
         {
             string ret;
             if (this.asyncCallback != null)
             {
                 ret = await this.asyncCallback(arg);
             }
-            else if(this.syncCallback != null)
+            else if (this.syncCallback != null)
             {
                 ret = this.syncCallback(arg);
-            } else
+            }
+            else
             {
                 throw new ArgumentException("use string (not IEnumerable<string>) for Fire requests");
             }

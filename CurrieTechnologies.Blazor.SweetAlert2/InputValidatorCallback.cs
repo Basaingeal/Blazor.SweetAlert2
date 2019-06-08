@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
@@ -45,10 +43,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public async Task<string> InvokeAsync(string arg)
         {
             string ret;
-            if(this.asyncCallback != null)
+            if (this.asyncCallback != null)
             {
                 ret = await this.asyncCallback(arg);
-            } else
+            }
+            else
             {
                 ret = this.syncCallback(arg);
             }
