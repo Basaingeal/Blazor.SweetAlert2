@@ -33,17 +33,17 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return name;
         }
 
-        public static readonly SweetAlertInputType TEXT = new SweetAlertInputType("text");
-        public static readonly SweetAlertInputType EMAIL = new SweetAlertInputType("email");
-        public static readonly SweetAlertInputType PASSWORD = new SweetAlertInputType("password");
-        public static readonly SweetAlertInputType NUMBER = new SweetAlertInputType("number");
-        public static readonly SweetAlertInputType TEL = new SweetAlertInputType("tel");
-        public static readonly SweetAlertInputType RANGE = new SweetAlertInputType("range");
-        public static readonly SweetAlertInputType TEXTAREA = new SweetAlertInputType("textarea");
-        public static readonly SweetAlertInputType SELECT = new SweetAlertInputType("select");
-        public static readonly SweetAlertInputType RADIO = new SweetAlertInputType("radio");
-        public static readonly SweetAlertInputType CHECKBOX = new SweetAlertInputType("checkbox");
-        internal static readonly SweetAlertInputType FILE = new SweetAlertInputType("file");
-        public static readonly SweetAlertInputType URL = new SweetAlertInputType("url");
+        public static readonly SweetAlertInputType Text = new SweetAlertInputType("text");
+        public static readonly SweetAlertInputType Email = new SweetAlertInputType("email");
+        public static readonly SweetAlertInputType Password = new SweetAlertInputType("password");
+        public static readonly SweetAlertInputType Number = new SweetAlertInputType("number");
+        public static readonly SweetAlertInputType Tel = new SweetAlertInputType("tel");
+        public static readonly SweetAlertInputType Range = new SweetAlertInputType("range");
+        public static readonly SweetAlertInputType Textarea = new SweetAlertInputType("textarea");
+        public static readonly SweetAlertInputType Select = new SweetAlertInputType("select");
+        public static readonly SweetAlertInputType Radio = new SweetAlertInputType("radio");
+        public static readonly SweetAlertInputType Checkbox = new SweetAlertInputType("checkbox");
+        internal static readonly SweetAlertInputType File = new SweetAlertInputType("file");
+        public static readonly SweetAlertInputType Url = new SweetAlertInputType("url");
     }
 }

@@ -32,10 +32,10 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return name;
         }
 
-        public static readonly SweetAlertType SUCCESS = new SweetAlertType("success");
-        public static readonly SweetAlertType ERROR = new SweetAlertType("error");
-        public static readonly SweetAlertType WARNING = new SweetAlertType("warning");
-        public static readonly SweetAlertType INFO = new SweetAlertType("info");
-        public static readonly SweetAlertType QUESTION = new SweetAlertType("question");
+        public static readonly SweetAlertType Success = new SweetAlertType("success");
+        public static readonly SweetAlertType Error = new SweetAlertType("error");
+        public static readonly SweetAlertType Warning = new SweetAlertType("warning");
+        public static readonly SweetAlertType Info = new SweetAlertType("info");
+        public static readonly SweetAlertType Question = new SweetAlertType("question");
     }
 }

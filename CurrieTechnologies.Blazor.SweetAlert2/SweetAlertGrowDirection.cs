@@ -37,7 +37,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             }
             else
             {
-                return FALSE;
+                return False;
             }
         }
 
@@ -46,9 +46,9 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return name;
         }
 
-        public static readonly SweetAlertGrowDirection ROW = new SweetAlertGrowDirection("row");
-        public static readonly SweetAlertGrowDirection COLUMN = new SweetAlertGrowDirection("column");
-        public static readonly SweetAlertGrowDirection FULLSCREEN = new SweetAlertGrowDirection("fullscreen");
-        public static readonly SweetAlertGrowDirection FALSE = new SweetAlertGrowDirection("false");
+        public static readonly SweetAlertGrowDirection Row = new SweetAlertGrowDirection("row");
+        public static readonly SweetAlertGrowDirection Column = new SweetAlertGrowDirection("column");
+        public static readonly SweetAlertGrowDirection Fullscreen = new SweetAlertGrowDirection("fullscreen");
+        public static readonly SweetAlertGrowDirection False = new SweetAlertGrowDirection("false");
     }
 }

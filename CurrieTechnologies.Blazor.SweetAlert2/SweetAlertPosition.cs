@@ -33,21 +33,21 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return name;
         }
 
-        public static readonly SweetAlertPosition TOP = new SweetAlertPosition("top");
-        public static readonly SweetAlertPosition TOP_START = new SweetAlertPosition("top-start");
-        public static readonly SweetAlertPosition TOP_END = new SweetAlertPosition("top-end");
-        public static readonly SweetAlertPosition TOP_LEFT = new SweetAlertPosition("top-left");
-        public static readonly SweetAlertPosition TOP_RIGHT = new SweetAlertPosition("top-right");
-        public static readonly SweetAlertPosition CENTER = new SweetAlertPosition("center");
-        public static readonly SweetAlertPosition CENTER_START = new SweetAlertPosition("center-start");
-        public static readonly SweetAlertPosition CENTER_END = new SweetAlertPosition("center-end");
-        public static readonly SweetAlertPosition CENTER_LEFT = new SweetAlertPosition("center-left");
-        public static readonly SweetAlertPosition CENTER_RIGHT = new SweetAlertPosition("center-right");
-        public static readonly SweetAlertPosition BOTTOM = new SweetAlertPosition("bottom");
-        public static readonly SweetAlertPosition BOTTOM_START = new SweetAlertPosition("bottom-start");
-        public static readonly SweetAlertPosition BOTTOM_END = new SweetAlertPosition("bottom-end");
-        public static readonly SweetAlertPosition BOTTOM_LEFT = new SweetAlertPosition("bottom-left");
-        public static readonly SweetAlertPosition BOTTOM_RIGHT = new SweetAlertPosition("bottom-right");
+        public static readonly SweetAlertPosition Top = new SweetAlertPosition("top");
+        public static readonly SweetAlertPosition TopStart = new SweetAlertPosition("top-start");
+        public static readonly SweetAlertPosition TopEnd = new SweetAlertPosition("top-end");
+        public static readonly SweetAlertPosition TopLeft = new SweetAlertPosition("top-left");
+        public static readonly SweetAlertPosition TopRight = new SweetAlertPosition("top-right");
+        public static readonly SweetAlertPosition Center = new SweetAlertPosition("center");
+        public static readonly SweetAlertPosition CenterStart = new SweetAlertPosition("center-start");
+        public static readonly SweetAlertPosition CenterEnd = new SweetAlertPosition("center-end");
+        public static readonly SweetAlertPosition CenterLeft = new SweetAlertPosition("center-left");
+        public static readonly SweetAlertPosition CenterRight = new SweetAlertPosition("center-right");
+        public static readonly SweetAlertPosition Bottom = new SweetAlertPosition("bottom");
+        public static readonly SweetAlertPosition BottomStart = new SweetAlertPosition("bottom-start");
+        public static readonly SweetAlertPosition BottomEnd = new SweetAlertPosition("bottom-end");
+        public static readonly SweetAlertPosition BottomLeft = new SweetAlertPosition("bottom-left");
+        public static readonly SweetAlertPosition BottomRight = new SweetAlertPosition("bottom-right");
     }
 
 
