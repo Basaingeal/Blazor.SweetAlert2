@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Components;
+
     /// <summary>
     /// A bound event handler delagate.
     /// </summary>
@@ -17,6 +17,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         private readonly EventCallback eventCallback;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PreConfirmCallback"/> class.
         /// Creates a <see cref="PreConfirmCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
         /// <para>Use in Fire requests.</para>
         /// </summary>
@@ -30,6 +31,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PreConfirmCallback"/> class.
         /// Creates a <see cref="PreConfirmCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
         /// <para>Use in Fire requests.</para>
         /// </summary>
@@ -43,6 +45,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PreConfirmCallback"/> class.
         /// Creates a <see cref="PreConfirmCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
         /// <para>Use in Queue requests.</para>
         /// </summary>
@@ -56,6 +59,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PreConfirmCallback"/> class.
         /// Creates a <see cref="PreConfirmCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
         /// <para>Use in Queue requests.</para>
         /// </summary>
@@ -88,7 +92,8 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             {
                 throw new ArgumentException("use string (not IEnumerable<string>) for Fire requests");
             }
-            await eventCallback.InvokeAsync(arg);
+
+            await this.eventCallback.InvokeAsync(arg);
             return ret;
         }
 
@@ -112,7 +117,8 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             {
                 throw new ArgumentException("use IEnumerable<string> for Queue requests");
             }
-            await eventCallback.InvokeAsync(arg);
+
+            await this.eventCallback.InvokeAsync(arg);
             return ret;
         }
     }

@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class SweetAlertGrowDirection
     {
-        private readonly string name;
         private static readonly Dictionary<string, SweetAlertGrowDirection> Instance =
             new Dictionary<string, SweetAlertGrowDirection>();
 
+        private readonly string name;
 
         public SweetAlertGrowDirection(string name)
         {
             this.name = name;
             Instance[name] = this;
         }
-
 
         public static implicit operator SweetAlertGrowDirection(string str)
         {
@@ -43,7 +42,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public override string ToString()
         {
-            return name;
+            return this.name;
         }
 
         public static readonly SweetAlertGrowDirection Row = new SweetAlertGrowDirection("row");

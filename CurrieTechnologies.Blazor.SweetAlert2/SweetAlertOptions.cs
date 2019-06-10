@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System.Collections.Generic;
+
     public class SweetAlertOptions
     {
         /// <summary>
@@ -32,7 +32,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public string Footer { get; set; }
 
-
         /// <summary>
         /// The type of the modal.
         /// <para>SweetAlert2 comes with 5 built-in types which will show a corresponding icon animation: 'warning', 'error', 'success', 'info' and 'question'.</para>
@@ -40,7 +39,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public SweetAlertType Type { get; set; }
 
-        // TODO: Allow string - Either a boolean value or a css background value (hex, rgb, rgba, url, etc.)
         /// <summary>
         /// Whether or not SweetAlert2 should show a full screen click-to-dismiss backdrop.
         /// </summary>
@@ -79,14 +77,12 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public string Background { get; set; }
 
         /// <summary>
-        /// Modal window position
+        /// Modal window position.
         /// </summary>
         public SweetAlertPosition Position { get; set; }
 
-        //TODO: Type-safe enum for grow.
-        //TODO: On client, switch null to false.
         /// <summary>
-        /// Modal window grow direction
+        /// Modal window grow direction.
         /// </summary>
         public SweetAlertGrowDirection Grow { get; set; }
 
@@ -102,7 +98,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public decimal? Timer { get; set; }
 
-        //TODO: Accept function to resolve.
         /// <summary>
         /// If set to false, modal CSS animation will be disabled.
         /// </summary>
@@ -114,7 +109,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public bool? HeightAuto { get; set; }
 
-        //TODO: Accept function to resolve. All allows.
         /// <summary>
         /// If set to false, the user can't dismiss the modal by clicking outside it.
         /// </summary>
@@ -330,7 +324,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public SweetAlertOptions(string title)
         {
-            Title = title;
+            this.Title = title;
         }
 
         internal SweetAlertOptionPOCO ToPOCO()
@@ -399,65 +393,65 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             ////};
             return new SweetAlertOptionPOCO
             {
-                Title = Title,
-                TitleText = TitleText,
-                Text = Text,
-                Html = Html,
-                Footer = Footer,
-                Type = Type?.ToString(),
-                Backdrop = Backdrop,
-                Toast = Toast,
-                Target = Target,
-                Input = Input?.ToString(),
-                Width = Width,
-                Padding = Padding,
-                Background = Background,
-                Position = Position?.ToString(),
-                Grow = Grow?.ToString(),
-                CustomClass = CustomClass,
-                Timer = Timer,
-                Animation = Animation,
-                HeightAuto = HeightAuto,
-                AllowOutsideClick = AllowOutsideClick,
-                AllowEscapeKey = AllowEscapeKey,
-                AllowEnterKey = AllowEnterKey,
-                StopKeydownPropagation = StopKeydownPropagation,
-                KeydownListenerCapture = KeydownListenerCapture,
-                ShowConfirmButton = ShowConfirmButton,
-                ShowCancelButton = ShowCancelButton,
-                ConfirmButtonText = ConfirmButtonText,
-                CancelButtonText = CancelButtonText,
-                ConfirmButtonColor = ConfirmButtonColor,
-                CancelButtonColor = CancelButtonColor,
-                ConfirmButtonAriaLabel = ConfirmButtonAriaLabel,
-                CancelButtonAriaLabel = CancelButtonAriaLabel,
-                ButtonsStyling = ButtonsStyling,
-                ReverseButtons = ReverseButtons,
-                FocusConfirm = FocusConfirm,
-                FocusCancel = FocusCancel,
-                ShowCloseButton = ShowCloseButton,
-                CloseButtonAriaLabel = CloseButtonAriaLabel,
-                ShowLoaderOnConfirm = ShowLoaderOnConfirm,
-                PreConfirm = PreConfirm != null,
-                ImageUrl = ImageUrl,
-                ImageWidth = ImageWidth,
-                ImageHeight = ImageHeight,
-                ImageAlt = ImageAlt,
-                InputPlaceholder = InputPlaceholder,
-                InputValue = InputValue,
-                InputOptions = InputOptions,
-                InputAutoTrim = InputAutoTrim,
-                InputAttributes = InputAttributes,
-                InputValidator = InputValidator != null,
-                ValidationMessage = ValidationMessage,
-                ProgressSteps = ProgressSteps,
-                CurrentProgressStep = CurrentProgressStep,
-                ProgressStepsDistance = ProgressStepsDistance,
-                OnBeforeOpen = OnBeforeOpen != null,
-                OnAfterClose = OnAfterClose != null,
-                OnOpen = OnOpen != null,
-                OnClose = OnClose != null,
-                ScrollbarPadding = ScrollbarPadding
+                Title = this.Title,
+                TitleText = this.TitleText,
+                Text = this.Text,
+                Html = this.Html,
+                Footer = this.Footer,
+                Type = this.Type?.ToString(),
+                Backdrop = this.Backdrop,
+                Toast = this.Toast,
+                Target = this.Target,
+                Input = this.Input?.ToString(),
+                Width = this.Width,
+                Padding = this.Padding,
+                Background = this.Background,
+                Position = this.Position?.ToString(),
+                Grow = this.Grow?.ToString(),
+                CustomClass = this.CustomClass,
+                Timer = this.Timer,
+                Animation = this.Animation,
+                HeightAuto = this.HeightAuto,
+                AllowOutsideClick = this.AllowOutsideClick,
+                AllowEscapeKey = this.AllowEscapeKey,
+                AllowEnterKey = this.AllowEnterKey,
+                StopKeydownPropagation = this.StopKeydownPropagation,
+                KeydownListenerCapture = this.KeydownListenerCapture,
+                ShowConfirmButton = this.ShowConfirmButton,
+                ShowCancelButton = this.ShowCancelButton,
+                ConfirmButtonText = this.ConfirmButtonText,
+                CancelButtonText = this.CancelButtonText,
+                ConfirmButtonColor = this.ConfirmButtonColor,
+                CancelButtonColor = this.CancelButtonColor,
+                ConfirmButtonAriaLabel = this.ConfirmButtonAriaLabel,
+                CancelButtonAriaLabel = this.CancelButtonAriaLabel,
+                ButtonsStyling = this.ButtonsStyling,
+                ReverseButtons = this.ReverseButtons,
+                FocusConfirm = this.FocusConfirm,
+                FocusCancel = this.FocusCancel,
+                ShowCloseButton = this.ShowCloseButton,
+                CloseButtonAriaLabel = this.CloseButtonAriaLabel,
+                ShowLoaderOnConfirm = this.ShowLoaderOnConfirm,
+                PreConfirm = this.PreConfirm != null,
+                ImageUrl = this.ImageUrl,
+                ImageWidth = this.ImageWidth,
+                ImageHeight = this.ImageHeight,
+                ImageAlt = this.ImageAlt,
+                InputPlaceholder = this.InputPlaceholder,
+                InputValue = this.InputValue,
+                InputOptions = this.InputOptions,
+                InputAutoTrim = this.InputAutoTrim,
+                InputAttributes = this.InputAttributes,
+                InputValidator = this.InputValidator != null,
+                ValidationMessage = this.ValidationMessage,
+                ProgressSteps = this.ProgressSteps,
+                CurrentProgressStep = this.CurrentProgressStep,
+                ProgressStepsDistance = this.ProgressStepsDistance,
+                OnBeforeOpen = this.OnBeforeOpen != null,
+                OnAfterClose = this.OnAfterClose != null,
+                OnOpen = this.OnOpen != null,
+                OnClose = this.OnClose != null,
+                ScrollbarPadding = this.ScrollbarPadding,
             };
         }
     }

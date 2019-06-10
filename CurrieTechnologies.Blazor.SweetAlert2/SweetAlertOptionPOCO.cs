@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System.Collections.Generic;
+
     internal class SweetAlertOptionPOCO
     {
         public string Title { get; set; }

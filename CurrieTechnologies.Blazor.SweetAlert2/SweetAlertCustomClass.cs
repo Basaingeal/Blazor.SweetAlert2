@@ -74,7 +74,7 @@
 
         public SweetAlertCustomClass(string popup)
         {
-            Popup = popup;
+            this.Popup = popup;
         }
     }
 }

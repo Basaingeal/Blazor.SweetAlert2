@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class SweetAlertMixin
     {
         private readonly SweetAlertOptions storedOptions;
@@ -25,11 +25,11 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <returns></returns>
         public Task<SweetAlertResult> FireAsync(string title, string message = null, SweetAlertType type = null)
         {
-            SweetAlertOptions newSettings = Mix(storedOptions);
+            SweetAlertOptions newSettings = this.Mix(this.storedOptions);
             newSettings.Title = title;
             newSettings.Html = message ?? newSettings.Html;
             newSettings.Type = type ?? newSettings.Type;
-            return swal.FireAsync(newSettings);
+            return this.swal.FireAsync(newSettings);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="settings"></param>
         public Task<SweetAlertResult> FireAsync(SweetAlertOptions settings)
         {
-            return swal.FireAsync(Mix(settings));
+            return this.swal.FireAsync(this.Mix(settings));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <returns></returns>
         public SweetAlertMixin Mixin(SweetAlertOptions settings)
         {
-            return new SweetAlertMixin(Mix(settings), swal);
+            return new SweetAlertMixin(this.Mix(settings), this.swal);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<bool> IsVisibleAsync()
         {
-            return swal.IsVisibleAsync();
+            return this.swal.IsVisibleAsync();
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="onComplete">An optional callback to be called when the alert has finished closing.</param>
         public Task CloseAsync(SweetAlertCallback onComplete)
         {
-            return swal.CloseAsync(onComplete);
+            return this.swal.CloseAsync(onComplete);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task CloseAsync()
         {
-            return swal.CloseAsync();
+            return this.swal.CloseAsync();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="newSettings"></param>
         public Task UpdateAsync(SweetAlertOptions newSettings)
         {
-            return swal.UpdateAsync(Mix(newSettings));
+            return this.swal.UpdateAsync(this.Mix(newSettings));
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task EnableButtonsAsync()
         {
-            return swal.EnableButtonsAsync();
+            return this.swal.EnableButtonsAsync();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task DisableButtonsAsync()
         {
-            return swal.DisableButtonsAsync();
+            return this.swal.DisableButtonsAsync();
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task ShowLoadingAsync()
         {
-            return swal.ShowLoadingAsync();
+            return this.swal.ShowLoadingAsync();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task HideLoadingAsync()
         {
-            return swal.HideLoadingAsync();
+            return this.swal.HideLoadingAsync();
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<bool> IsLoadingAsync()
         {
-            return swal.IsLoadingAsync();
+            return this.swal.IsLoadingAsync();
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task ClickConfirmAsync()
         {
-            return swal.ClickCancelAsync();
+            return this.swal.ClickCancelAsync();
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task ClickCancelAsync()
         {
-            return swal.ClickCancelAsync();
+            return this.swal.ClickCancelAsync();
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="validationMessage">The validation message.</param>
         public Task ShowValidationMessageAsync(string validationMessage)
         {
-            return swal.ShowValidationMessageAsync(validationMessage);
+            return this.swal.ShowValidationMessageAsync(validationMessage);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task ResetValidationMessageAsync()
         {
-            return swal.ResetValidationMessageAsync();
+            return this.swal.ResetValidationMessageAsync();
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task DisableInputAsync()
         {
-            return swal.DisableInputAsync();
+            return this.swal.DisableInputAsync();
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task EnableInputAsync()
         {
-            return swal.EnableInputAsync();
+            return this.swal.EnableInputAsync();
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<double?> GetTimerLeftAsync()
         {
-            return swal.GetTimerLeftAsync();
+            return this.swal.GetTimerLeftAsync();
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<double?> StopTimerAsync()
         {
-            return swal.StopTimerAsync();
+            return this.swal.StopTimerAsync();
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<double?> ResumeTimerAsync()
         {
-            return swal.ResumeTimerAsync();
+            return this.swal.ResumeTimerAsync();
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<double?> ToggleTimerAsync()
         {
-            return swal.ToggleTimerAsync();
+            return this.swal.ToggleTimerAsync();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<bool?> IsTimmerRunningAsync()
         {
-            return swal.IsTimmerRunningAsync();
+            return this.swal.IsTimmerRunningAsync();
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="n">The number of milliseconds to add to the currect timer</param>
         public Task<double?> IncreaseTimerAsync(double n)
         {
-            return swal.IncreaseTimerAsync(n);
+            return this.swal.IncreaseTimerAsync(n);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="steps">The steps' configuration.</param>
         public Task<SweetAlertQueueResult> QueueAsync(IEnumerable<SweetAlertOptions> steps)
         {
-            return swal.QueueAsync(steps.Select(s => Mix(s)));
+            return this.swal.QueueAsync(steps.Select(s => this.Mix(s)));
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task<string> GetQueueStepAsync()
         {
-            return swal.GetQueueStepAsync();
+            return this.swal.GetQueueStepAsync();
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="index">The index to insert the step at. By default a modal will be added to the end of a queue.</param>
         public Task<double> InsertQueueStepAsync(SweetAlertOptions step, double? index = null)
         {
-            return swal.InsertQueueStepAsync(Mix(step), index);
+            return this.swal.InsertQueueStepAsync(this.Mix(step), index);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <param name="index">The modal index in the queue.</param>
         public Task DeleteQueueStepAsync(double index)
         {
-            return swal.DeleteQueueStepAsync(index);
+            return this.swal.DeleteQueueStepAsync(index);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task ShowProgressStepsAsync()
         {
-            return swal.ShowProgressStepsAsync();
+            return this.swal.ShowProgressStepsAsync();
         }
 
         /// <summary>
@@ -278,27 +278,25 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// </summary>
         public Task HideProgressStepsAsync()
         {
-            return swal.HideProgressStepsAsync();
+            return this.swal.HideProgressStepsAsync();
         }
 
         /// <summary>
         /// Determines if a given parameter name is valid.
         /// </summary>
         /// <param name="paramName">The parameter to check.</param>
-        /// <returns></returns>
         public Task<bool> IsValidParamterAsync(string paramName)
         {
-            return swal.IsValidParamterAsync(paramName);
+            return this.swal.IsValidParamterAsync(paramName);
         }
 
         /// <summary>
         /// Determines if a given parameter name is valid for Swal.update() method.
         /// </summary>
         /// <param name="paramName">The parameter to check.</param>
-        /// <returns></returns>
         public Task<bool> IsUpdatableParamterAsync(string paramName)
         {
-            return swal.IsUpdatableParamterAsync(paramName);
+            return this.swal.IsUpdatableParamterAsync(paramName);
         }
 
         /// <summary>
@@ -308,72 +306,72 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <exception cref="ArgumentException">Thrown if parameters is not 1, 2, or 3 elements long.</exception>
         public SweetAlertOptions ArgsToParams(IEnumerable<string> paramaters)
         {
-            return swal.ArgsToParams(paramaters);
+            return this.swal.ArgsToParams(paramaters);
         }
 
         private SweetAlertOptions Mix(SweetAlertOptions newSettings)
         {
             return new SweetAlertOptions
             {
-                Title = newSettings.Title ?? storedOptions.Title,
-                TitleText = newSettings.TitleText ?? storedOptions.TitleText,
-                Text = newSettings.Text ?? storedOptions.Text,
-                Html = newSettings.Html ?? storedOptions.Html,
-                Footer = newSettings.Footer ?? storedOptions.Footer,
-                Type = newSettings.Type ?? storedOptions.Type,
-                Backdrop = newSettings.Backdrop ?? storedOptions.Backdrop,
-                Toast = newSettings.Toast ?? storedOptions.Toast,
-                Target = newSettings.Target ?? storedOptions.Target,
-                Input = newSettings.Input ?? storedOptions.Input,
-                Width = newSettings.Width ?? storedOptions.Width,
-                Padding = newSettings.Padding ?? storedOptions.Padding,
-                Background = newSettings.Background ?? storedOptions.Background,
-                Position = newSettings.Position ?? storedOptions.Position,
-                Grow = newSettings.Grow ?? storedOptions.Grow,
-                CustomClass = newSettings.CustomClass ?? storedOptions.CustomClass,
-                Timer = newSettings.Timer ?? storedOptions.Timer,
-                Animation = newSettings.Animation ?? storedOptions.Animation,
-                HeightAuto = newSettings.HeightAuto ?? storedOptions.HeightAuto,
-                AllowOutsideClick = newSettings.AllowOutsideClick ?? storedOptions.AllowOutsideClick,
-                AllowEscapeKey = newSettings.AllowEscapeKey ?? storedOptions.AllowEscapeKey,
-                AllowEnterKey = newSettings.AllowEnterKey ?? storedOptions.AllowEnterKey,
-                StopKeydownPropagation = newSettings.StopKeydownPropagation ?? storedOptions.StopKeydownPropagation,
-                KeydownListenerCapture = newSettings.KeydownListenerCapture ?? storedOptions.KeydownListenerCapture,
-                ShowConfirmButton = newSettings.ShowConfirmButton ?? storedOptions.ShowConfirmButton,
-                ShowCancelButton = newSettings.ShowCancelButton ?? storedOptions.ShowCancelButton,
-                ConfirmButtonText = newSettings.ConfirmButtonText ?? storedOptions.ConfirmButtonText,
-                CancelButtonText = newSettings.CancelButtonText ?? storedOptions.CancelButtonText,
-                ConfirmButtonColor = newSettings.ConfirmButtonColor ?? storedOptions.ConfirmButtonColor,
-                CancelButtonColor = newSettings.CancelButtonColor ?? storedOptions.CancelButtonColor,
-                ConfirmButtonAriaLabel = newSettings.ConfirmButtonAriaLabel ?? storedOptions.ConfirmButtonAriaLabel,
-                CancelButtonAriaLabel = newSettings.CancelButtonAriaLabel ?? storedOptions.CancelButtonAriaLabel,
-                ButtonsStyling = newSettings.ButtonsStyling ?? storedOptions.ButtonsStyling,
-                ReverseButtons = newSettings.ReverseButtons ?? storedOptions.ReverseButtons,
-                FocusConfirm = newSettings.FocusConfirm ?? storedOptions.FocusConfirm,
-                FocusCancel = newSettings.FocusCancel ?? storedOptions.FocusCancel,
-                ShowCloseButton = newSettings.ShowCloseButton ?? storedOptions.ShowCloseButton,
-                CloseButtonAriaLabel = newSettings.CloseButtonAriaLabel ?? storedOptions.CloseButtonAriaLabel,
-                ShowLoaderOnConfirm = newSettings.ShowLoaderOnConfirm ?? storedOptions.ShowLoaderOnConfirm,
-                PreConfirm = newSettings.PreConfirm ?? storedOptions.PreConfirm,
-                ImageUrl = newSettings.ImageUrl ?? storedOptions.ImageUrl,
-                ImageWidth = newSettings.ImageWidth ?? storedOptions.ImageWidth,
-                ImageHeight = newSettings.ImageHeight ?? storedOptions.ImageHeight,
-                ImageAlt = newSettings.ImageAlt ?? storedOptions.ImageAlt,
-                InputPlaceholder = newSettings.InputPlaceholder ?? storedOptions.InputPlaceholder,
-                InputValue = newSettings.InputValue ?? storedOptions.InputValue,
-                InputOptions = newSettings.InputOptions ?? storedOptions.InputOptions,
-                InputAutoTrim = newSettings.InputAutoTrim ?? storedOptions.InputAutoTrim,
-                InputAttributes = newSettings.InputAttributes ?? storedOptions.InputAttributes,
-                InputValidator = newSettings.InputValidator ?? storedOptions.InputValidator,
-                ValidationMessage = newSettings.ValidationMessage ?? storedOptions.ValidationMessage,
-                ProgressSteps = newSettings.ProgressSteps ?? storedOptions.ProgressSteps,
-                CurrentProgressStep = newSettings.CurrentProgressStep ?? storedOptions.CurrentProgressStep,
-                ProgressStepsDistance = newSettings.ProgressStepsDistance ?? storedOptions.ProgressStepsDistance,
-                OnBeforeOpen = newSettings.OnBeforeOpen ?? storedOptions.OnBeforeOpen,
-                OnAfterClose = newSettings.OnAfterClose ?? storedOptions.OnAfterClose,
-                OnOpen = newSettings.OnOpen ?? storedOptions.OnOpen,
-                OnClose = newSettings.OnClose ?? storedOptions.OnClose,
-                ScrollbarPadding = newSettings.ScrollbarPadding ?? storedOptions.ScrollbarPadding,
+                Title = newSettings.Title ?? this.storedOptions.Title,
+                TitleText = newSettings.TitleText ?? this.storedOptions.TitleText,
+                Text = newSettings.Text ?? this.storedOptions.Text,
+                Html = newSettings.Html ?? this.storedOptions.Html,
+                Footer = newSettings.Footer ?? this.storedOptions.Footer,
+                Type = newSettings.Type ?? this.storedOptions.Type,
+                Backdrop = newSettings.Backdrop ?? this.storedOptions.Backdrop,
+                Toast = newSettings.Toast ?? this.storedOptions.Toast,
+                Target = newSettings.Target ?? this.storedOptions.Target,
+                Input = newSettings.Input ?? this.storedOptions.Input,
+                Width = newSettings.Width ?? this.storedOptions.Width,
+                Padding = newSettings.Padding ?? this.storedOptions.Padding,
+                Background = newSettings.Background ?? this.storedOptions.Background,
+                Position = newSettings.Position ?? this.storedOptions.Position,
+                Grow = newSettings.Grow ?? this.storedOptions.Grow,
+                CustomClass = newSettings.CustomClass ?? this.storedOptions.CustomClass,
+                Timer = newSettings.Timer ?? this.storedOptions.Timer,
+                Animation = newSettings.Animation ?? this.storedOptions.Animation,
+                HeightAuto = newSettings.HeightAuto ?? this.storedOptions.HeightAuto,
+                AllowOutsideClick = newSettings.AllowOutsideClick ?? this.storedOptions.AllowOutsideClick,
+                AllowEscapeKey = newSettings.AllowEscapeKey ?? this.storedOptions.AllowEscapeKey,
+                AllowEnterKey = newSettings.AllowEnterKey ?? this.storedOptions.AllowEnterKey,
+                StopKeydownPropagation = newSettings.StopKeydownPropagation ?? this.storedOptions.StopKeydownPropagation,
+                KeydownListenerCapture = newSettings.KeydownListenerCapture ?? this.storedOptions.KeydownListenerCapture,
+                ShowConfirmButton = newSettings.ShowConfirmButton ?? this.storedOptions.ShowConfirmButton,
+                ShowCancelButton = newSettings.ShowCancelButton ?? this.storedOptions.ShowCancelButton,
+                ConfirmButtonText = newSettings.ConfirmButtonText ?? this.storedOptions.ConfirmButtonText,
+                CancelButtonText = newSettings.CancelButtonText ?? this.storedOptions.CancelButtonText,
+                ConfirmButtonColor = newSettings.ConfirmButtonColor ?? this.storedOptions.ConfirmButtonColor,
+                CancelButtonColor = newSettings.CancelButtonColor ?? this.storedOptions.CancelButtonColor,
+                ConfirmButtonAriaLabel = newSettings.ConfirmButtonAriaLabel ?? this.storedOptions.ConfirmButtonAriaLabel,
+                CancelButtonAriaLabel = newSettings.CancelButtonAriaLabel ?? this.storedOptions.CancelButtonAriaLabel,
+                ButtonsStyling = newSettings.ButtonsStyling ?? this.storedOptions.ButtonsStyling,
+                ReverseButtons = newSettings.ReverseButtons ?? this.storedOptions.ReverseButtons,
+                FocusConfirm = newSettings.FocusConfirm ?? this.storedOptions.FocusConfirm,
+                FocusCancel = newSettings.FocusCancel ?? this.storedOptions.FocusCancel,
+                ShowCloseButton = newSettings.ShowCloseButton ?? this.storedOptions.ShowCloseButton,
+                CloseButtonAriaLabel = newSettings.CloseButtonAriaLabel ?? this.storedOptions.CloseButtonAriaLabel,
+                ShowLoaderOnConfirm = newSettings.ShowLoaderOnConfirm ?? this.storedOptions.ShowLoaderOnConfirm,
+                PreConfirm = newSettings.PreConfirm ?? this.storedOptions.PreConfirm,
+                ImageUrl = newSettings.ImageUrl ?? this.storedOptions.ImageUrl,
+                ImageWidth = newSettings.ImageWidth ?? this.storedOptions.ImageWidth,
+                ImageHeight = newSettings.ImageHeight ?? this.storedOptions.ImageHeight,
+                ImageAlt = newSettings.ImageAlt ?? this.storedOptions.ImageAlt,
+                InputPlaceholder = newSettings.InputPlaceholder ?? this.storedOptions.InputPlaceholder,
+                InputValue = newSettings.InputValue ?? this.storedOptions.InputValue,
+                InputOptions = newSettings.InputOptions ?? this.storedOptions.InputOptions,
+                InputAutoTrim = newSettings.InputAutoTrim ?? this.storedOptions.InputAutoTrim,
+                InputAttributes = newSettings.InputAttributes ?? this.storedOptions.InputAttributes,
+                InputValidator = newSettings.InputValidator ?? this.storedOptions.InputValidator,
+                ValidationMessage = newSettings.ValidationMessage ?? this.storedOptions.ValidationMessage,
+                ProgressSteps = newSettings.ProgressSteps ?? this.storedOptions.ProgressSteps,
+                CurrentProgressStep = newSettings.CurrentProgressStep ?? this.storedOptions.CurrentProgressStep,
+                ProgressStepsDistance = newSettings.ProgressStepsDistance ?? this.storedOptions.ProgressStepsDistance,
+                OnBeforeOpen = newSettings.OnBeforeOpen ?? this.storedOptions.OnBeforeOpen,
+                OnAfterClose = newSettings.OnAfterClose ?? this.storedOptions.OnAfterClose,
+                OnOpen = newSettings.OnOpen ?? this.storedOptions.OnOpen,
+                OnClose = newSettings.OnClose ?? this.storedOptions.OnClose,
+                ScrollbarPadding = newSettings.ScrollbarPadding ?? this.storedOptions.ScrollbarPadding,
             };
         }
     }

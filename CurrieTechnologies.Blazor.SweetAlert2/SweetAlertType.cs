@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class SweetAlertType
     {
-        private readonly string name;
         private static readonly Dictionary<string, SweetAlertType> Instance =
             new Dictionary<string, SweetAlertType>();
+
+        private readonly string name;
 
         private SweetAlertType(string name)
         {
@@ -29,7 +30,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public override string ToString()
         {
-            return name;
+            return this.name;
         }
 
         public static readonly SweetAlertType Success = new SweetAlertType("success");

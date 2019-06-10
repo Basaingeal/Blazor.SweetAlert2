@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Threading.Tasks;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Components;
+
     /// <summary>
     /// A bound event handler delagate.
     /// </summary>
@@ -14,6 +14,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         private readonly EventCallback eventCallback;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SweetAlertCallback"/> class.
         /// Creates a <see cref="SweetAlertCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
         /// </summary>
         /// <param name="receiver">The event receiver. Pass in `this` from the calling component.</param>
@@ -25,6 +26,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SweetAlertCallback"/> class.
         /// Creates a <see cref="SweetAlertCallback"/> for the provided <paramref name="receiver"/> and <paramref name="callback"/>.
         /// </summary>
         /// <param name="receiver">The event receiver. Pass in `this` from the calling component.</param>
@@ -38,7 +40,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <summary>
         /// Invokes the delegate associated with this binding and dispatches an event notification to the appropriate component.
         /// </summary>
-        /// <returns></returns>
         public async Task InvokeAsync()
         {
             if (this.asyncCallback != null)
@@ -49,7 +50,8 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             {
                 this.syncCallback();
             }
-            await eventCallback.InvokeAsync(null);
+
+            await this.eventCallback.InvokeAsync(null);
         }
     }
 }

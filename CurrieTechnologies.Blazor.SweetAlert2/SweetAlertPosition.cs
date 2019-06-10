@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class SweetAlertPosition
     {
-        private readonly string name;
         private static readonly Dictionary<string, SweetAlertPosition> Instance =
             new Dictionary<string, SweetAlertPosition>();
 
+        private readonly string name;
 
-        public SweetAlertPosition(string name)
+        private SweetAlertPosition(string name)
         {
             this.name = name;
             Instance[name] = this;
@@ -30,7 +30,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public override string ToString()
         {
-            return name;
+            return this.name;
         }
 
         public static readonly SweetAlertPosition Top = new SweetAlertPosition("top");
@@ -49,6 +49,4 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static readonly SweetAlertPosition BottomLeft = new SweetAlertPosition("bottom-left");
         public static readonly SweetAlertPosition BottomRight = new SweetAlertPosition("bottom-right");
     }
-
-
 }

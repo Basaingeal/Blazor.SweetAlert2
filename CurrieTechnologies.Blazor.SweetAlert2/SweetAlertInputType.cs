@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CurrieTechnologies.Blazor.SweetAlert2
+﻿namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class SweetAlertInputType
     {
-        private readonly string name;
         private static readonly Dictionary<string, SweetAlertInputType> Instance =
             new Dictionary<string, SweetAlertInputType>();
 
+        private readonly string name;
 
         public SweetAlertInputType(string name)
         {
@@ -30,7 +30,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
 
         public override string ToString()
         {
-            return name;
+            return this.name;
         }
 
         public static readonly SweetAlertInputType Text = new SweetAlertInputType("text");
@@ -43,7 +43,7 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public static readonly SweetAlertInputType Select = new SweetAlertInputType("select");
         public static readonly SweetAlertInputType Radio = new SweetAlertInputType("radio");
         public static readonly SweetAlertInputType Checkbox = new SweetAlertInputType("checkbox");
-        internal static readonly SweetAlertInputType File = new SweetAlertInputType("file");
         public static readonly SweetAlertInputType Url = new SweetAlertInputType("url");
+        internal static readonly SweetAlertInputType File = new SweetAlertInputType("file");
     }
 }
