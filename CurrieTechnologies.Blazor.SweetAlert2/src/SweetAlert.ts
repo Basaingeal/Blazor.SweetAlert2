@@ -167,8 +167,8 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.Fire = async (
   type: SweetAlertType,
 ) => {
   let params: [string] | [string, string] | [string, string, string] = [title];
-  params = message ? [...params, message] as [string, string] : [...params, ""] as [string, string];
-  params = type ? [...params, type.toString()] as [string, string, string] : params;
+  params = message ? ([...params, message] as [string, string]) : ([...params, ""] as [string, string]);
+  params = type ? ([...params, type.toString()] as [string, string, string]) : params;
   const result = await Swal.fire(Swal.argsToParams(params));
   await dispatchFireResult(requestId, result);
 };

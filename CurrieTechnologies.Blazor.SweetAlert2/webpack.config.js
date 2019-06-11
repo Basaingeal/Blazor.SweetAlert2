@@ -15,14 +15,5 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js']
-  },
-  devtool: 'inline-source-map',
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-      },
-      minimize: false
-  }
+  mode: 'production'
 };

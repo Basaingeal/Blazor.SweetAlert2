@@ -32,11 +32,6 @@ export default interface ISimpleSweetAlertOptions {
 
   position?: SweetAlertPosition;
 
-  /**
-   * Modal window grow direction
-   *
-   * @default false
-   */
   grow?: SweetAlertGrow;
 
   customClass?: SweetAlertCustomClass;
