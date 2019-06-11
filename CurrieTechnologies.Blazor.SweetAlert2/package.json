@@ -4,6 +4,7 @@
   "description": "A Blazor JSInterop library for interacting with sweetalert2",
   "scripts": {
     "build": "webpack",
+    "build:tsc": "tsc",
     "watch": "webpack --watch"
   },
   "devDependencies": {

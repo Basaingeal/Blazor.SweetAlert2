@@ -1,4 +1,6 @@
-﻿import flatten from "lodash/flatten";
+﻿/// <reference path="../node_modules/sweetalert2/sweetalert2.d.ts"/>
+
+import flatten from "lodash/flatten";
 import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from "sweetalert2";
 import ISimpleSweetAlertOptions from "./SimpleSweetAlertOptions";
 import ISweetAlertQueueResult from "./SweetAlertQueueResult";
