@@ -11,7 +11,7 @@ Or grab from [Nuget](https://www.nuget.org/packages/CurrieTechnologies.Blazor.Sw
 Usage
 -----
 Register the service in your Startup file.
-```js
+```cs
 // Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
@@ -37,19 +37,19 @@ Examples
 
 The most basic message:
 
-```js
+```cs
 await Swal.FireAsync("Hello world!");
 ```
 
 A message signaling an error:
 
-```js
+```cs
 await Swal.FireAsync("Oops...", "Something went wrong!", "error");
 ```
 
 Handling the result of SweetAlert2 modal:
 
-```js
+```cs
 SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
 	{
 		Title = "Are you sure?",
