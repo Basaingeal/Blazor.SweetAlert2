@@ -1,5 +1,7 @@
-﻿/// <reference path="../node_modules/sweetalert2/sweetalert2.d.ts"/>
+﻿// tslint:disable-next-line: no-reference
+/// <reference path="../node_modules/sweetalert2/sweetalert2.d.ts"/>
 
+// tslint:disable-next-line: no-submodule-imports
 import flatten from "lodash/flatten";
 import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from "sweetalert2";
 import ISimpleSweetAlertOptions from "./SimpleSweetAlertOptions";
@@ -10,7 +12,7 @@ declare var DotNet: any;
 const domWindow = window as any;
 const namespace: string = "CurrieTechnologies.Blazor.SweetAlert2";
 
-function getEnumNumber(enumString: string): number {
+function getEnumNumber(enumString: string): number  {
   if (enumString === "cancel") {
     return 0;
   }
