@@ -8,7 +8,7 @@
     "watch": "webpack --watch",
     "lint": "tslint ./src/*.ts",
     "prettier:write": "prettier --write ./src/*.ts",
-    "prettier": "prettier --check ./src/*.ts"
+    "prettier:check": "prettier --check ./src/*.ts"
   },
   "devDependencies": {
     "@types/node": "^12.0.4",
@@ -27,7 +27,7 @@
   },
   "pre-commit": [
     "lint",
-    "prettier"
+    "prettier:check"
   ],
   "author": "Michael J. Currie",
   "private": true,

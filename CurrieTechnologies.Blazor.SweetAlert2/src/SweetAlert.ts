@@ -12,7 +12,7 @@ declare var DotNet: any;
 const domWindow = window as any;
 const namespace: string = "CurrieTechnologies.Blazor.SweetAlert2";
 
-function getEnumNumber(enumString: string): number   {
+function getEnumNumber(enumString: string): number    {
   if (enumString === "cancel") {
     return 0;
   }
