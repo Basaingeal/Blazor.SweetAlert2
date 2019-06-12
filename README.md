@@ -72,7 +72,7 @@ else if (result.Dismiss == DismissReason.Cancel)
 {
 	await Swal.FireAsync(
 		"Cancelled",
-		"Your imaginary file is safe :)'",
+		"Your imaginary file is safe :)",
 		SweetAlertType.Error
 		);
 }
