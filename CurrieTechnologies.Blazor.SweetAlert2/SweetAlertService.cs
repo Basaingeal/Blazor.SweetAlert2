@@ -285,50 +285,45 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// If `timer` parameter is set, returns number of milliseconds of timer remained.
         /// <para>Otherwise, returns null.</para>
         /// </summary>
-        public async Task<double?> GetTimerLeftAsync()
+        public Task<double?> GetTimerLeftAsync()
         {
-            var response = await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.GetTimerLeft");
-            return response == null ? null : (double?)Convert.ToDouble(response);
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.GetTimerLeft");
         }
 
         /// <summary>
         /// Stop timer. Returns number of milliseconds of timer remained.
         /// <para>If `timer` parameter isn't set, returns null.</para>
         /// </summary>
-        public async Task<double?> StopTimerAsync()
+        public Task<double?> StopTimerAsync()
         {
-            var response = await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.StopTimer");
-            return response == null ? null : (double?)Convert.ToDouble(response);
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.StopTimer");
         }
 
         /// <summary>
         /// Resume timer. Returns number of milliseconds of timer remained.
         /// <para>If `timer` parameter isn't set, returns null.</para>
         /// </summary>
-        public async Task<double?> ResumeTimerAsync()
+        public Task<double?> ResumeTimerAsync()
         {
-            var response = await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ResumeTimer");
-            return response == null ? null : (double?)Convert.ToDouble(response);
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.ResumeTimer");
         }
 
         /// <summary>
         /// Toggle timer. Returns number of milliseconds of timer remained.
         /// <para>If `timer` parameter isn't set, returns null.</para>
         /// </summary>
-        public async Task<double?> ToggleTimerAsync()
+        public Task<double?> ToggleTimerAsync()
         {
-            var response = await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.ToggleTimer");
-            return response == null ? null : (double?)Convert.ToDouble(response);
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.ToggleTimer");
         }
 
         /// <summary>
         /// Check if timer is running. Returns true if timer is running, and false is timer is paused / stopped.
         /// <para>If `timer` parameter isn't set, returns null.</para>
         /// </summary>
-        public async Task<bool?> IsTimmerRunningAsync()
+        public Task<bool?> IsTimmerRunningAsync()
         {
-            var response = await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.IsTimmerRunning");
-            return response == null ? null : (bool?)Convert.ToBoolean(response);
+            return jSRuntime.InvokeAsync<bool?>("CurrieTechnologies.Blazor.SweetAlert2.IsTimmerRunning");
         }
 
         /// <summary>
@@ -336,10 +331,9 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         /// <para>If `timer` parameter isn't set, returns null.</para>
         /// </summary>
         /// <param name="n">The number of milliseconds to add to the currect timer</param>
-        public async Task<double?> IncreaseTimerAsync(double n)
+        public Task<double?> IncreaseTimerAsync(double n)
         {
-            var response = await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
-            return response == null ? null : (double?)Convert.ToDouble(response);
+            return jSRuntime.InvokeAsync<double?>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
         }
 
         /// <summary>

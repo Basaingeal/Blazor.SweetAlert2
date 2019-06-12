@@ -41,14 +41,14 @@ function getStringVerison(input: any): string {
 function dispatchFireResult(requestId: string, result: SweetAlertResult): Promise<void> {
   const myResult = (result as any) as ISweetAlertResult;
   myResult.value = myResult.value ? getStringVerison(myResult.value) : null;
-  myResult.dismiss = myResult.dismiss ? getEnumNumber(result.dismiss.toString()) : null;
+  myResult.dismiss = myResult.dismiss ? getEnumNumber(result.dismiss.toString()) : 0;
   return DotNet.invokeMethodAsync(namespace, "ReceiveFireResult", requestId, myResult);
 }
 
 function dispatchQueueResult(requestId: string, result: SweetAlertResult): Promise<void> {
   const queueResult = result as ISweetAlertQueueResult;
   queueResult.value = result.value ? flatten(result.value).map((v: any) => (v ? getStringVerison(v) : null)) : null;
-  queueResult.dismiss = queueResult.dismiss ? getEnumNumber(result.dismiss.toString()) : null;
+  queueResult.dismiss = queueResult.dismiss ? getEnumNumber(result.dismiss.toString()) : 0;
   return DotNet.invokeMethodAsync(namespace, "ReceiveQueueResult", requestId, queueResult);
 }
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Copyright>Michael J. Currie</Copyright>
     <Description>A Blazor JSInterop library for interacting with sweetalert2</Description>
     <PackageTags>Blazor SweetAlert SweetAlert2 JSInterop</PackageTags>
@@ -35,7 +35,7 @@
 
     <NeutralLanguage></NeutralLanguage>
 
-    <PackageIconUrl>https://currietechnologyimages.blob.core.windows.net/logos/transparent_Logo_128.png</PackageIconUrl>
+    <PackageIconUrl>https://currietechnologyimages.blob.core.windows.net/logos/logo_v2_128.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
