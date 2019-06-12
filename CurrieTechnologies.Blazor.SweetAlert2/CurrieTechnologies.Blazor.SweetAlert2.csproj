@@ -35,7 +35,7 @@
 
     <NeutralLanguage></NeutralLanguage>
 
-    <PackageIconUrl>https://sweetalert2.github.io/images/swal2-logo.png</PackageIconUrl>
+    <PackageIconUrl>https://currietechnologyimages.blob.core.windows.net/logos/transparent_Logo_128.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview5-19227-01" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview6.19307.2" />
   </ItemGroup>
 
   <ItemGroup>
