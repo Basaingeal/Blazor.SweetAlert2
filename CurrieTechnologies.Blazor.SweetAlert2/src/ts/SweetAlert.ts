@@ -1,5 +1,5 @@
 ﻿// tslint:disable-next-line: no-reference
-/// <reference path="../node_modules/sweetalert2/sweetalert2.d.ts"/>
+/// <reference path="../../node_modules/sweetalert2/sweetalert2.d.ts"/>
 
 // tslint:disable-next-line: no-submodule-imports
 import flatten from "lodash/flatten";
@@ -314,3 +314,30 @@ domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsValidParamter = (paramName: st
 domWindow.CurrieTechnologies.Blazor.SweetAlert2.IsUpdatableParamter = (paramName: string): boolean => {
   return Swal.isUpdatableParameter(paramName);
 };
+
+domWindow.CurrieTechnologies.Blazor.SweetAlert2.SetTheme = (theme: number): void => {
+  let fileName: string = "";
+  switch (theme) {
+    case 1: {
+      fileName = "darkTheme.min.css"
+      break;
+    }
+    case 2: {
+      fileName = "minimalTheme.min.css"
+      break;
+    }
+    case 3: {
+      fileName = "borderlessTheme.min.css"
+      break;
+    }
+    default: {
+      return;
+    }
+  }
+
+  const head = document.getElementsByTagName("head")[0];
+  const styleTag = document.createElement("link");
+  styleTag.rel = "stylesheet";
+  styleTag.href = `_content/CurrieTechnologies.Blazor.SweetAlert2/${fileName}`;
+  head.appendChild(styleTag);
+}

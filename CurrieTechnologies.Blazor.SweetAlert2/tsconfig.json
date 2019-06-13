@@ -12,5 +12,5 @@
     ],
     "allowJs": true
   },
-  "include": ["./src/SweetAlert.ts"]
+  "include": ["./src/ts/SweetAlert.ts"]
 }

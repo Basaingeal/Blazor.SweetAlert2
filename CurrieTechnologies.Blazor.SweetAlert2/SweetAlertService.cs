@@ -42,6 +42,20 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             this.jSRuntime = jSRuntime;
         }
 
+        public SweetAlertService(IJSRuntime jSRuntime, SweetAlertServiceOptions options)
+        {
+            this.jSRuntime = jSRuntime;
+            if(options.Theme != SweetAlertTheme.Default)
+            {
+                SetTheme(options.Theme);
+            }
+        }
+
+        private async void SetTheme(SweetAlertTheme theme)
+        {
+            await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.SetTheme", (int)theme);
+        }
+
         /// <summary>
         /// Function to display a simple SweetAlert2 modal.
         /// </summary>
