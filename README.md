@@ -128,7 +128,7 @@ Swal.FireAsync(new SweetAlertOptions
 		CancelButtonText = "No, keep it"
 	}).ContinueWith(swalTask => 
 	{
-		SweetAlertResult = swalTask.Result;
+		SweetAlertResult result = swalTask.Result;
 		if (!string.IsNullOrEmpty(result.Value))
 		{
 			Swal.FireAsync(
