@@ -1,5 +1,5 @@
 <p align="center">
-<span style="font-size:x-large">Blazor</span>
+<span style="font-size:smaller">Blazor</span>
 <br>
 +
 <br>
@@ -46,6 +46,7 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 **OR**
+
 If you want to use one of the Official SweetAlert2 themes
 ```cs
 // Startup.cs
@@ -88,6 +89,7 @@ await Swal.FireAsync("Oops...", "Something went wrong!", "error");
 Handling the result of SweetAlert2 modal:
 
 ```cs
+// async/await
 SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
 	{
 		Title = "Are you sure?",
@@ -114,6 +116,38 @@ else if (result.Dismiss == DismissReason.Cancel)
 		SweetAlertType.Error
 		);
 }
+
+// Promise/Task based
+Swal.FireAsync(new SweetAlertOptions
+	{
+		Title = "Are you sure?",
+		Text = "You will not be able to recover this imaginary file!",
+		Type = SweetAlertType.Warning,
+		ShowCancelButton = true,
+		ConfirmButtonText = "Yes, delete it!",
+		CancelButtonText = "No, keep it"
+	}).ContinueWith(swalTask => 
+	{
+		SweetAlertResult = swalTask.Result;
+		if (!string.IsNullOrEmpty(result.Value))
+		{
+			Swal.FireAsync(
+				"Deleted",
+				"Your imaginary file has been deleted.",
+				SweetAlertType.Success
+				);
+		}
+		else if (result.Dismiss == DismissReason.Cancel)
+		{
+			Swal.FireAsync(
+				"Cancelled",
+				"Your imaginary file is safe :)",
+				SweetAlertType.Error
+				);
+		}
+	});
+
+
 ```
 
 ## [More examples can be found on the SweetAlert2 project site](https://sweetalert2.github.io/)
@@ -122,7 +156,7 @@ else if (result.Dismiss == DismissReason.Cancel)
 Notable differences from the JavaScript library
 ---------------------
 - No methods that return an HTMLElement are included (e. g. `Swal.getContainer()`)
-- The value of a `SweetAlertResult` (`result.Value`) can only be a string (or a collection of strings if returned from a queue request). Object must be parsed to/from JSON in your code.
+- The value of a `SweetAlertResult` (`result.Value`) can only be a string (or a collection of strings if returned from a queue request). Numbers and booleans must be converted. Object must be parsed to/from JSON in your code.
 - `OnOpenAsync()`, `OnCloseAsync()`, `OnBeforeOpenAsync()`, and `OnAfterCloseAsync()` can all take asynchronous callbacks. 🎉 (none will return an HTMLElement though.)
 - Callbacks must be passed inside of objects specifically designed for the given callback property. e.g. the `InputValidator` property takes an `InputValidatorCallback` created like so:
 ```cs
