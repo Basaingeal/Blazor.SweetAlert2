@@ -29,8 +29,7 @@
         {
             var options = new SweetAlertServiceOptions();
             configureOptions(options);
-            var sp = services.BuildServiceProvider();
-            return services.AddSingleton(s => new SweetAlertService(sp.GetRequiredService<IJSRuntime>(), options));
+            return services.AddSingleton(s => new SweetAlertService(s.GetRequiredService<IJSRuntime>(), options));
         }
     }
 }

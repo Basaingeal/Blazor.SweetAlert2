@@ -1,8 +1,32 @@
+<p align="center">
+<span style="font-size:x-large">Blazor</span>
+<br>
++
+<br>
+  <a href="https://sweetalert2.github.io/">
+    <img src="https://raw.github.com/sweetalert2/sweetalert2/master/assets/swal2-logo.png" alt="SweetAlert2">
+  </a>
+</p>
+
+<p align="center">
+  A beautiful, responsive, customizable, accessible (WAI-ARIA) replacement for JavaScript's popup boxes.
+</p>
+
+<p align="center">
+  <a href="https://sweetalert2.github.io/">
+    <img src="https://raw.github.com/sweetalert2/sweetalert2/master/assets/sweetalert2.gif" width="562"><br>
+    See SweetAlert2 in action ↗
+  </a>
+</p>
+
+---
+### 🙌 Includes themes from the [Official SweetAlert2 Themes project](https://github.com/sweetalert2/sweetalert2-themes) 🙌
+
 Installation
 ------------
 
 ```sh
-Install-Package CurrieTechnologies.Blazor.PageVisibility --IncludePrerelease
+Install-Package CurrieTechnologies.Blazor.SweetAlert2 --IncludePrerelease
 ```
 
 Or grab from [Nuget](https://www.nuget.org/packages/CurrieTechnologies.Blazor.SweetAlert2/)
@@ -16,7 +40,21 @@ Register the service in your Startup file.
 public void ConfigureServices(IServiceCollection services)
 {
 ...
-services.AddSweetAlert2();
+	services.AddSweetAlert2();
+...
+}
+```
+
+**OR**
+If you want to use one of the Official SweetAlert2 themes
+```cs
+// Startup.cs
+public void ConfigureServices(IServiceCollection services)
+{
+...
+	services.AddSweetAlert2(options => {
+		options.Theme = SweetAlertTheme.Dark;
+	});
 ...
 }
 ```
@@ -87,7 +125,7 @@ Notable differences from the JavaScript library
 - The value of a `SweetAlertResult` (`result.Value`) can only be a string (or a collection of strings if returned from a queue request). Object must be parsed to/from JSON in your code.
 - `OnOpenAsync()`, `OnCloseAsync()`, `OnBeforeOpenAsync()`, and `OnAfterCloseAsync()` can all take asynchronous callbacks. 🎉 (none will return an HTMLElement though.)
 - Callbacks must be passed inside of objects specifically designed for the given callback property. e.g. the `InputValidator` property takes an `InputValidatorCallback` created like so:
-```js
+```cs
 new SweetAlertOptions {
 	...
 	InputValidator = new InputValidatorCallback(this, (string input) => input.Length == 0 ? "Please provide a value" : null),
@@ -102,7 +140,7 @@ Browser compatibility
 ---------------------
 Compatible with all browsers than can run WebAssembly and Blazor.
 
- IE11* | Edge | Chrome | Firefox | Safari | Opera | UC Browser
+ IE11 | Edge | Chrome | Firefox | Safari | Opera | UC Browser
 -------|------|--------|---------|--------|-------|------------
  ❌ | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | ❌ |
 

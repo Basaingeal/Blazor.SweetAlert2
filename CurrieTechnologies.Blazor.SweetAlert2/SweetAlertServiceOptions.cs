@@ -4,8 +4,14 @@ using System.Text;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
+    /// <summary>
+    /// Options to configure the <see cref="SweetAlertService"/> at Startup.
+    /// </summary>
     public class SweetAlertServiceOptions
     {
+        /// <summary>
+        /// An official theme for SweetAlert2
+        /// </summary>
         public SweetAlertTheme Theme { get; set; }
     }
 }

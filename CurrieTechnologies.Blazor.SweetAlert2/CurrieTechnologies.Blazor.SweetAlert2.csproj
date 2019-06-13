@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Copyright>Michael J. Currie</Copyright>
-    <Description>A Blazor JSInterop library for interacting with sweetalert2</Description>
+    <Description>A Blazor JSInterop library for interacting with SweetAlert2</Description>
     <PackageTags>Blazor SweetAlert SweetAlert2 JSInterop</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>CurrieTechnologies.Blazor.SweetAlert2</AssemblyName>
@@ -17,15 +17,15 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-    <Version>0.1.0-pre</Version>
+    <Version>0.1.0-preview</Version>
     <PackageProjectUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <DefaultItemExcludes>${DefaultItemExcludes};node_modules\**</DefaultItemExcludes>
 
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
 
-    <FileVersion>0.0.1.0</FileVersion>
+    <FileVersion>0.1.0.0</FileVersion>
 
     <Company>Currie Technologies</Company>
 
@@ -36,6 +36,12 @@
     <NeutralLanguage></NeutralLanguage>
 
     <PackageIconUrl>https://currietechnologyimages.blob.core.windows.net/logos/logo_v2_128.png</PackageIconUrl>
+
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <RepositoryUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</RepositoryUrl>
+
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
