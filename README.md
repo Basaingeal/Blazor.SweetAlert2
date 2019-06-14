@@ -1,5 +1,5 @@
 <p align="center">
-<span style="font-size:smaller">Blazor</span>
+<span style="font-size:x-large">Client-side Blazor</span>
 <br>
 +
 <br>
