@@ -17,15 +17,15 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-    <Version>0.1.1-preview</Version>
+    <Version>0.1.2-preview</Version>
     <PackageProjectUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <DefaultItemExcludes>${DefaultItemExcludes};node_modules\**</DefaultItemExcludes>
 
-    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <AssemblyVersion>0.1.2.0</AssemblyVersion>
 
-    <FileVersion>0.1.1.0</FileVersion>
+    <FileVersion>0.1.2.0</FileVersion>
 
     <Company>Currie Technologies</Company>
 
@@ -43,9 +43,7 @@
 
     <RepositoryType>git</RepositoryType>
 
-    <PackageReleaseNotes>- Fix issue where `DismissReason` couldn't be null even if modal was not dismissed.
-- Fix issue where timer methods would never complete if the result would have been null.
-- Lowered target framework to .NET Standard 2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>- Fix config files ending up in package and output directory.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -61,6 +59,21 @@
 
   <ItemGroup>
     <Folder Include="content\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="package-lock.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="package.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="tslint.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
