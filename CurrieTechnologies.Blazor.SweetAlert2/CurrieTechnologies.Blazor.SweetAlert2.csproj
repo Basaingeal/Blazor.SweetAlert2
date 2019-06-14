@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Michael J. Currie</Copyright>
-    <Description>A Blazor JSInterop library for interacting with SweetAlert2</Description>
+    <Description>A Blazor component library for interacting with SweetAlert2.
+Use in Client-side Blazor apps.</Description>
     <PackageTags>Blazor SweetAlert SweetAlert2 JSInterop</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>CurrieTechnologies.Blazor.SweetAlert2</AssemblyName>
@@ -17,15 +18,15 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-    <Version>0.1.3-preview</Version>
+    <Version>0.1.4-preview</Version>
     <PackageProjectUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <DefaultItemExcludes>${DefaultItemExcludes};node_modules\**</DefaultItemExcludes>
 
-    <AssemblyVersion>0.1.3.0</AssemblyVersion>
+    <AssemblyVersion>0.1.4.0</AssemblyVersion>
 
-    <FileVersion>0.1.3.0</FileVersion>
+    <FileVersion>0.1.4.0</FileVersion>
 
     <Company>Currie Technologies</Company>
 
@@ -43,7 +44,7 @@
 
     <RepositoryType>git</RepositoryType>
 
-    <PackageReleaseNotes>- Fix config files ending up in package and output directory.</PackageReleaseNotes>
+    <PackageReleaseNotes>Update Nuget description</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

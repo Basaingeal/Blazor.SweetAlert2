@@ -1,6 +1,6 @@
 {
   "name": "currietechnologies-blazorsweetalert2",
-  "version": "0.1.3-preview",
+  "version": "0.1.4-preview",
   "description": "A Blazor JSInterop library for interacting with SweetAlert2",
   "scripts": {
     "build": "webpack",
