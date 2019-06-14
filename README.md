@@ -22,6 +22,8 @@
 ---
 ### 🙌 Includes themes from the [Official SweetAlert2 Themes project](https://github.com/sweetalert2/sweetalert2-themes) 🙌
 
+## This package is for Client-side Blazor only. For Server-side Blazor use [CurrieTechnologies.Razor.SweetAlert2](https://github.com/Basaingeal/Razor.SweetAlert2)
+
 Installation
 ------------
 
