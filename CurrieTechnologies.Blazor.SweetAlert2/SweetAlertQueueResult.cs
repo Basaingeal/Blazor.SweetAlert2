@@ -6,6 +6,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
     {
         public IEnumerable<string> Value { get; set; }
 
-        public DismissReason Dismiss { get; set; }
+        public DismissReason? Dismiss { get; set; }
     }
 }
