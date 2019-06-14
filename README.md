@@ -168,7 +168,6 @@ new SweetAlertOptions {
 ```
 `this` is passed in so that the Blazor `EventCallback` used behind the scenes can trigger a re-render if the state of the calling component was changed in the callback.
 These callbacks are necessary because there is currently no way to create an `EventCallback` in Blazor that isn't a component parameter without using the `EventCallbackFactory` which is clunky. It also allows the callback to return a value that can be used by the SweetAlert2 library. (e.g. A validation message to show if input validation fails.) Native Blazor `EventCallback`s only return generic `Task`s.
-- Currently the timer functions which get information about the timer may fail if there is no current timer. This seems to be an issue with the JSInterop's ability to parse null into a nullable value type (e.g. `double?`).
 
 Browser compatibility
 ---------------------

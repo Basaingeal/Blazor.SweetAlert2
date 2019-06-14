@@ -42,6 +42,10 @@
     <RepositoryUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</RepositoryUrl>
 
     <RepositoryType>git</RepositoryType>
+
+    <PackageReleaseNotes>- Fix issue where `DismissReason` couldn't be null even if modal was not dismissed.
+- Fix issue where timer methods would never complete if the result would have been null.
+- Lowered target framework to .NET Standard 2.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
