@@ -47,7 +47,8 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
         public SweetAlertService(IJSRuntime jSRuntime, SweetAlertServiceOptions options)
         {
             this.jSRuntime = jSRuntime;
-            if(options.Theme != SweetAlertTheme.Default)
+            this.jSInProcessRuntime = jSRuntime as IJSInProcessRuntime;
+            if (options.Theme != SweetAlertTheme.Default)
             {
                 SetTheme(options.Theme);
             }
@@ -58,6 +59,13 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.SetTheme", (int)theme);
         }
 
+        /// <summary>
+        /// Function to display a simple SweetAlert2 modal.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public async Task<SweetAlertResult> FireAsync(string title, string message = null, SweetAlertType type = null)
         {
             var tcs = new TaskCompletionSource<SweetAlertResult>();
@@ -87,6 +95,19 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Function to display a SweetAlert2 modal, with an object of options, all being optional.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// Swal.FireAsync(new SweetAlertOptions {
+        ///     Title = "Auto close alert!",
+        ///     Text = "I will close in 2 seconds.",
+        ///     Timer = 2000
+        /// });
+        /// </code>
+        /// </example>
+        /// <param name="settings"></param>
         public async Task<SweetAlertResult> FireAsync(SweetAlertOptions settings)
         {
             var tcs = new TaskCompletionSource<SweetAlertResult>();
