@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrieTechnologies.Blazor.SweetAlert2
 {
-    public class SweetAlertService
+    public class SweetAlertService: IAsyncSweetAlertService, ISyncSweetAlertService
     {
         private static readonly IDictionary<Guid, TaskCompletionSource<SweetAlertResult>> PendingFireRequests =
             new Dictionary<Guid, TaskCompletionSource<SweetAlertResult>>();
@@ -36,10 +36,12 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             new Dictionary<Guid, InputValidatorCallback>();
 
         private readonly IJSRuntime jSRuntime;
+        private readonly IJSInProcessRuntime jSInProcessRuntime;
 
         public SweetAlertService(IJSRuntime jSRuntime)
         {
             this.jSRuntime = jSRuntime;
+            this.jSInProcessRuntime = jSRuntime as IJSInProcessRuntime;
         }
 
         public SweetAlertService(IJSRuntime jSRuntime, SweetAlertServiceOptions options)
@@ -56,13 +58,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             await jSRuntime.InvokeAsync<object>("CurrieTechnologies.Blazor.SweetAlert2.SetTheme", (int)theme);
         }
 
-        /// <summary>
-        /// Function to display a simple SweetAlert2 modal.
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public async Task<SweetAlertResult> FireAsync(string title, string message = null, SweetAlertType type = null)
         {
             var tcs = new TaskCompletionSource<SweetAlertResult>();
@@ -92,19 +87,6 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Function to display a SweetAlert2 modal, with an object of options, all being optional.
-        /// </summary>
-        /// <example>
-        /// <code>
-        /// Swal.FireAsync(new SweetAlertOptions {
-        ///     Title = "Auto close alert!",
-        ///     Text = "I will close in 2 seconds.",
-        ///     Timer = 2000
-        /// });
-        /// </code>
-        /// </example>
-        /// <param name="settings"></param>
         public async Task<SweetAlertResult> FireAsync(SweetAlertOptions settings)
         {
             var tcs = new TaskCompletionSource<SweetAlertResult>();
@@ -542,6 +524,264 @@ namespace CurrieTechnologies.Blazor.SweetAlert2
             }
 
             OnCompleteCallbacks.Remove(requestIdGuid);
+        }
+
+        /// <summary>
+        /// Determines if a modal is shown.
+        /// </summary>
+        public bool IsVisible()
+        {
+            return jSInProcessRuntime.Invoke<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsVisible");
+        }
+
+        /// <summary>
+        /// Closes the currently open SweetAlert2 modal programmatically.
+        /// </summary>
+        /// <param name="onComplete">An optional callback to be called when the alert has finished closing.</param>
+        public void Close(SweetAlertCallback onComplete)
+        {
+            var requestId = Guid.NewGuid();
+            OnCompleteCallbacks.Add(requestId, onComplete);
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.Close", requestId);
+        }
+
+        /// <summary>
+        /// Closes the currently open SweetAlert2 modal programmatically.
+        /// </summary>
+        public void Close()
+        {
+            var requestId = Guid.NewGuid();
+            OnCompleteCallbacks.Add(requestId, null);
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.Close", requestId);
+        }
+
+        /// <summary>
+        /// Updates popup options.
+        /// </summary>
+        /// <param name="newSettings"></param>
+        public void Update(SweetAlertOptions newSettings)
+        {
+            Guid requestId = Guid.NewGuid();
+            AddCallbackToDictionaries(newSettings, requestId);
+            jSInProcessRuntime.Invoke<SweetAlertResult>(
+                "CurrieTechnologies.Blazor.SweetAlert2.Update",
+                requestId,
+                newSettings.ToPOCO());
+        }
+
+        /// <summary>
+        /// Enables "Confirm" and "Cancel" buttons.
+        /// </summary>
+        public void EnableButtons()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.EnableButtons");
+        }
+
+        /// <summary>
+        /// Disables "Confirm" and "Cancel" buttons.
+        /// </summary>
+        public void DisableButtons()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.DisableButtons");
+        }
+
+        /// <summary>
+        /// Disables buttons and show loader. This is useful with HTML requests.
+        /// </summary>
+        public void ShowLoading()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ShowLoading");
+        }
+
+        /// <summary>
+        /// Enables buttons and hide loader.
+        /// </summary>
+        public void HideLoading()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.HideLoading");
+        }
+
+        /// <summary>
+        /// Determines if modal is in the loading state.
+        /// </summary>
+        public bool IsLoading()
+        {
+            return jSInProcessRuntime.Invoke<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsLoading");
+        }
+
+        /// <summary>
+        /// Clicks the "Confirm"-button programmatically.
+        /// </summary>
+        public void ClickConfirm()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ClickConfirm");
+        }
+
+        /// <summary>
+        /// Clicks the "Cancel"-button programmatically.
+        /// </summary>
+        public void ClickCancel()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ClickCancel");
+        }
+
+        /// <summary>
+        /// Shows a validation message.
+        /// </summary>
+        /// <param name="validationMessage">The validation message.</param>
+        public void ShowValidationMessage(string validationMessage)
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ShowValidationMessage", validationMessage);
+        }
+
+        /// <summary>
+        /// Hides validation message.
+        /// </summary>
+        public void ResetValidationMessage()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ResetValidationMessage");
+        }
+
+        /// <summary>
+        /// Disables the modal input. A disabled input element is unusable and un-clickable.
+        /// </summary>
+        public void DisableInput()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.DisableInput");
+        }
+
+        /// <summary>
+        /// Enables the modal input.
+        /// </summary>
+        public void EnableInput()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.EnableInput");
+        }
+
+        /// <summary>
+        /// If `timer` parameter is set, returns number of milliseconds of timer remained.
+        /// <para>Otherwise, returns null.</para>
+        /// </summary>
+        public double? GetTimerLeft()
+        {
+            var response = jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.GetTimerLeft");
+            return response == null ? null : (double?)Convert.ToDouble(response.ToString());
+        }
+
+        /// <summary>
+        /// Stop timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public double? StopTimer()
+        {
+            var response = jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.StopTimer");
+            return response == null ? null : (double?)Convert.ToDouble(response.ToString());
+        }
+
+        /// <summary>
+        /// Resume timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public double? ResumeTimer()
+        {
+            var response = jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ResumeTimer");
+            return response == null ? null : (double?)Convert.ToDouble(response.ToString());
+        }
+
+        /// <summary>
+        /// Toggle timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public double? ToggleTimer()
+        {
+            var response = jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ToggleTimer");
+            return response == null ? null : (double?)Convert.ToDouble(response.ToString());
+        }
+
+        /// <summary>
+        /// Check if timer is running. Returns true if timer is running, and false is timer is paused / stopped.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public bool? IsTimmerRunning()
+        {
+            var response = jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.IsTimmerRunning");
+            return response == null ? null : (bool?)Convert.ToBoolean(response.ToString());
+        }
+
+        /// <summary>
+        /// Increase timer. Returns number of milliseconds of an updated timer.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        /// <param name="n">The number of milliseconds to add to the currect timer</param>
+        public double? IncreaseTimer(double n)
+        {
+            var response = jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.IncreaseTimer", n);
+            return response == null ? null : (double?)Convert.ToDouble(response.ToString());
+        }
+
+        /// <summary>
+        /// Gets the index of current modal in queue. When there's no active queue, null will be returned.
+        /// </summary>
+        public string GetQueueStep()
+        {
+            return jSInProcessRuntime.Invoke<string>("CurrieTechnologies.Blazor.SweetAlert2.GetQueueStep");
+        }
+
+        /// <summary>
+        /// Inserts a modal in the queue.
+        /// </summary>
+        /// <param name="step">The step configuration (same object as in the Swal.fire() call).</param>
+        /// <param name="index">The index to insert the step at. By default a modal will be added to the end of a queue.</param>
+        public double InsertQueueStep(SweetAlertOptions step, double? index)
+        {
+            var requestId = Guid.NewGuid();
+            AddCallbackToDictionaries(step, requestId);
+            return jSInProcessRuntime.Invoke<double>("CurrieTechnologies.Blazor.SweetAlert2.InsertQueueStep", requestId, step.ToPOCO(), index);
+        }
+
+        /// <summary>
+        /// Deletes the modal at the specified index in the queue.
+        /// </summary>
+        /// <param name="index">The modal index in the queue.</param>
+        public void DeleteQueueStep(double index)
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.DeleteQueueStep", index);
+        }
+
+        /// <summary>
+        /// Shows progress steps.
+        /// </summary>
+        public void ShowProgressSteps()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.ShowProgressSteps");
+        }
+
+        /// <summary>
+        /// Shows progress steps.
+        /// </summary>
+        public void HideProgressSteps()
+        {
+            jSInProcessRuntime.Invoke<object>("CurrieTechnologies.Blazor.SweetAlert2.HideProgressSteps");
+        }
+
+        /// <summary>
+        /// Determines if a given parameter name is valid.
+        /// </summary>
+        /// <param name="paramName">The parameter to check.</param>
+        /// <returns></returns>
+        public bool IsValidParamter(string paramName)
+        {
+            return jSInProcessRuntime.Invoke<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsValidParamter", paramName);
+        }
+
+        /// <summary>
+        /// Determines if a given parameter name is valid for Swal.update() method.
+        /// </summary>
+        /// <param name="paramName">The parameter to check.</param>
+        /// <returns></returns>
+        public bool IsUpdatableParamter(string paramName)
+        {
+            return jSInProcessRuntime.Invoke<bool>("CurrieTechnologies.Blazor.SweetAlert2.IsUpdatableParamter", paramName);
         }
     }
 

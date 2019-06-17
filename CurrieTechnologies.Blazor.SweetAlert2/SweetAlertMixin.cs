@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class SweetAlertMixin
+    public class SweetAlertMixin: IAsyncSweetAlertService, ISyncSweetAlertService
     {
         private readonly SweetAlertOptions storedOptions;
         private readonly SweetAlertService swal;
@@ -373,6 +373,247 @@
                 OnClose = newSettings.OnClose ?? this.storedOptions.OnClose,
                 ScrollbarPadding = newSettings.ScrollbarPadding ?? this.storedOptions.ScrollbarPadding,
             };
+        }
+
+        /// <summary>
+        /// Determines if a modal is shown.
+        /// </summary>
+        public bool IsVisible()
+        {
+            return this.swal.IsVisible();
+        }
+
+        /// <summary>
+        /// Closes the currently open SweetAlert2 modal programmatically.
+        /// </summary>
+        /// <param name="onComplete">An optional callback to be called when the alert has finished closing.</param>
+        public void Close(SweetAlertCallback onComplete)
+        {
+            this.swal.Close(onComplete);
+        }
+
+        /// <summary>
+        /// Closes the currently open SweetAlert2 modal programmatically.
+        /// </summary>
+        public void Close()
+        {
+            this.swal.Close();
+        }
+
+        /// <summary>
+        /// Updates popup options.
+        /// </summary>
+        /// <param name="newSettings"></param>
+        public void Update(SweetAlertOptions newSettings)
+        {
+            this.swal.Update(this.Mix(newSettings));
+        }
+
+        /// <summary>
+        /// Enables "Confirm" and "Cancel" buttons.
+        /// </summary>
+        public void EnableButtons()
+        {
+            this.swal.EnableButtons();
+        }
+
+        /// <summary>
+        /// Disables "Confirm" and "Cancel" buttons.
+        /// </summary>
+        public void DisableButtons()
+        {
+            this.swal.DisableButtons();
+        }
+
+        /// <summary>
+        /// Disables buttons and show loader. This is useful with HTML requests.
+        /// </summary>
+        public void ShowLoading()
+        {
+            this.swal.ShowLoading();
+        }
+
+        /// <summary>
+        /// Enables buttons and hide loader.
+        /// </summary>
+        public void HideLoading()
+        {
+            this.swal.HideLoading();
+        }
+
+        /// <summary>
+        /// Determines if modal is in the loading state.
+        /// </summary>
+        public bool IsLoading()
+        {
+            return this.swal.IsLoading();
+        }
+
+        /// <summary>
+        /// Clicks the "Confirm"-button programmatically.
+        /// </summary>
+        public void ClickConfirm()
+        {
+            this.swal.ClickConfirm();
+        }
+
+        /// <summary>
+        /// Clicks the "Cancel"-button programmatically.
+        /// </summary>
+        public void ClickCancel()
+        {
+            this.swal.ClickCancel();
+        }
+
+        /// <summary>
+        /// Shows a validation message.
+        /// </summary>
+        /// <param name="validationMessage">The validation message.</param>
+        public void ShowValidationMessage(string validationMessage)
+        {
+            this.swal.ShowValidationMessage(validationMessage);
+        }
+
+        /// <summary>
+        /// Hides validation message.
+        /// </summary>
+        public void ResetValidationMessage()
+        {
+            this.swal.ResetValidationMessage();
+        }
+
+        /// <summary>
+        /// Disables the modal input. A disabled input element is unusable and un-clickable.
+        /// </summary>
+        public void DisableInput()
+        {
+            this.swal.DisableInput();
+        }
+
+        /// <summary>
+        /// Enables the modal input.
+        /// </summary>
+        public void EnableInput()
+        {
+            this.swal.EnableInput();
+        }
+
+        /// <summary>
+        /// If `timer` parameter is set, returns number of milliseconds of timer remained.
+        /// <para>Otherwise, returns null.</para>
+        /// </summary>
+        public double? GetTimerLeft()
+        {
+            return this.swal.GetTimerLeft();
+        }
+
+        /// <summary>
+        /// Stop timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public double? StopTimer()
+        {
+            return this.swal.StopTimer();
+        }
+
+        /// <summary>
+        /// Resume timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public double? ResumeTimer()
+        {
+            return this.swal.ResumeTimer();
+        }
+
+        /// <summary>
+        /// Toggle timer. Returns number of milliseconds of timer remained.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public double? ToggleTimer()
+        {
+            return this.swal.ToggleTimer();
+        }
+
+        /// <summary>
+        /// Check if timer is running. Returns true if timer is running, and false is timer is paused / stopped.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        public bool? IsTimmerRunning()
+        {
+            return this.swal.IsTimmerRunning();
+        }
+
+        /// <summary>
+        /// Increase timer. Returns number of milliseconds of an updated timer.
+        /// <para>If `timer` parameter isn't set, returns null.</para>
+        /// </summary>
+        /// <param name="n">The number of milliseconds to add to the currect timer</param>
+        public double? IncreaseTimer(double n)
+        {
+            return this.swal.IncreaseTimer(n);
+        }
+
+        /// <summary>
+        /// Gets the index of current modal in queue. When there's no active queue, null will be returned.
+        /// </summary>
+        public string GetQueueStep()
+        {
+            return this.swal.GetQueueStep();
+        }
+
+        /// <summary>
+        /// Inserts a modal in the queue.
+        /// </summary>
+        /// <param name="step">The step configuration (same object as in the Swal.fire() call).</param>
+        /// <param name="index">The index to insert the step at. By default a modal will be added to the end of a queue.</param>
+        public double InsertQueueStep(SweetAlertOptions step, double? index)
+        {
+            return this.swal.InsertQueueStep(this.Mix(step), index);
+        }
+
+        /// <summary>
+        /// Deletes the modal at the specified index in the queue.
+        /// </summary>
+        /// <param name="index">The modal index in the queue.</param>
+        public void DeleteQueueStep(double index)
+        {
+            this.swal.DeleteQueueStep(index);
+        }
+
+        /// <summary>
+        /// Shows progress steps.
+        /// </summary>
+        public void ShowProgressSteps()
+        {
+            this.swal.ShowProgressSteps();
+        }
+
+        /// <summary>
+        /// Shows progress steps.
+        /// </summary>
+        public void HideProgressSteps()
+        {
+            this.swal.HideProgressSteps();
+        }
+
+        /// <summary>
+        /// Determines if a given parameter name is valid.
+        /// </summary>
+        /// <param name="paramName">The parameter to check.</param>
+        /// <returns></returns>
+        public bool IsValidParamter(string paramName)
+        {
+            return this.swal.IsValidParamter(paramName);
+        }
+
+        /// <summary>
+        /// Determines if a given parameter name is valid for Swal.update() method.
+        /// </summary>
+        /// <param name="paramName">The parameter to check.</param>
+        /// <returns></returns>
+        public bool IsUpdatableParamter(string paramName)
+        {
+            return this.swal.IsUpdatableParamter(paramName);
         }
     }
 }
