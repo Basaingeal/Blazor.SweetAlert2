@@ -1,34 +1,34 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'vs2017-win2016'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Installing .NET Core SDK...'
+  inputs:
+    version: 3.0.100-preview6-012264
+
 - task: NuGetToolInstaller@0
-
-- task: NuGetCommand@2
+  displayName: 'Installing Nuget Tools...'
   inputs:
-    restoreSolution: '$(solution)'
+    versionSpec: '4.9.2'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- script: dotnet build --configuration $(buildConfiguration) CurrieTechnologies.Blazor.Sweetalert2/CurrieTechnologies.Blazor.SweetAlert2.csproj
+  displayName: 'Building $(buildConfiguration)...'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'Generating Nuget Package... '
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: pack
+
+    arguments: --no-build
+    packagesToPack: CurrieTechnologies.Blazor.Sweetalert2/CurrieTechnologies.Blazor.SweetAlert2.csproj
+    configuration: $(buildConfiguration)
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publishing Build Artifacts...'
