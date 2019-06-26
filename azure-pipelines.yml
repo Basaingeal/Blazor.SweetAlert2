@@ -16,7 +16,7 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: 'Installing Nuget Tools...'
   inputs:
-    versionSpec: '4.9.2'
+    versionSpec: '5.0.2'
 
 - script: dotnet build --configuration $(buildConfiguration) CurrieTechnologies.Blazor.Sweetalert2/CurrieTechnologies.Blazor.SweetAlert2.csproj
   displayName: 'Building $(buildConfiguration)...'
