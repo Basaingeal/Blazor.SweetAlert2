@@ -27,7 +27,7 @@ steps:
     command: pack
 
     arguments: --no-build
-    packagesToPack: CurrieTechnologies.Blazor.Sweetalert2/CurrieTechnologies.Blazor.SweetAlert2.csproj
+    packagesToPack: CurrieTechnologies.Blazor.SweetAlert2/CurrieTechnologies.Blazor.SweetAlert2.csproj
     configuration: $(buildConfiguration)
 
 - task: PublishBuildArtifacts@1
