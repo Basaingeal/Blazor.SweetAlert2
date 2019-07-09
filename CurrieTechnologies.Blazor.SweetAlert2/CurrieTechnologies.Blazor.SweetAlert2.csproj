@@ -18,15 +18,15 @@ Use in Client-side Blazor apps.</Description>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-    <Version>0.2.1-preview</Version>
+    <Version>0.2.2-preview</Version>
     <PackageProjectUrl>https://github.com/Basaingeal/Blazor.SweetAlert2</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <DefaultItemExcludes>${DefaultItemExcludes};node_modules\**</DefaultItemExcludes>
 
-    <AssemblyVersion>0.2.1.0</AssemblyVersion>
+    <AssemblyVersion>0.2.2.0</AssemblyVersion>
 
-    <FileVersion>0.2.1.0</FileVersion>
+    <FileVersion>0.2.2.0</FileVersion>
 
     <Company>Currie Technologies</Company>
 
@@ -44,7 +44,8 @@ Use in Client-side Blazor apps.</Description>
 
     <RepositoryType>git</RepositoryType>
 
-    <PackageReleaseNotes>- Updated to SweetAlert2 8.13.0</PackageReleaseNotes>
+    <PackageReleaseNotes>- Updated to SweetAlert2 8.13.3
+- Allow parameterless PreConfirm callbacks</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
