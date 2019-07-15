@@ -8,12 +8,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   entry: {
     sweetAlert2: './src/ts/SweetAlert.ts',
-    darkTheme: './src/scss/dark-theme.scss',
-    minimalTheme: './src/scss/minimal-theme.scss',
-    borderlessTheme: './src/scss/borderless-theme.scss'
+    'sweetAlert2.min': './src/ts/SweetAlert.ts',
+    'darkTheme.min': './src/scss/dark-theme.scss',
+    'minimalTheme.min': './src/scss/minimal-theme.scss',
+    'borderlessTheme.min': './src/scss/borderless-theme.scss'
   },
   output: {
-    filename: "[name].min.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, 'content')
   },
   module: {
@@ -46,12 +47,18 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].min.css",
+      filename: "[name].css",
       path: path.resolve(__dirname, 'content')
     }),
     new CleanWebpackPlugin()
   ],
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})]
+    minimizer: [
+      new TerserJSPlugin({
+        include: /\.min\.js$/
+      }),
+      new OptimizeCSSAssetsPlugin({
+        include: /\.min\.css$/
+      })]
   }
 };
