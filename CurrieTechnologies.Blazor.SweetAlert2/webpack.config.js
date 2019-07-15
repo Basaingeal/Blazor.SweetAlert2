@@ -1,9 +1,9 @@
 ﻿const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const FileManagerPlugin = require('filemanager-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
 module.exports = {
   entry: {
@@ -40,18 +40,7 @@ module.exports = {
   },
   mode: 'production',
   plugins: [
-    new FileManagerPlugin({
-      onEnd: {
-        delete: [
-          path.resolve(__dirname, 'content', 'darkTheme.min.js'),
-          path.resolve(__dirname, 'content', 'darkTheme.js'),
-          path.resolve(__dirname, 'content', 'minimalTheme.min.js'),
-          path.resolve(__dirname, 'content', 'minimalTheme.js'),
-          path.resolve(__dirname, 'content', 'borderlessTheme.min.js'),
-          path.resolve(__dirname, 'content', 'borderlessTheme.js')
-        ]
-      }
-    }),
+    new FixStyleOnlyEntriesPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       path: path.resolve(__dirname, 'content')
