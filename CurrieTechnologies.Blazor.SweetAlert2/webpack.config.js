@@ -9,8 +9,11 @@ module.exports = {
   entry: {
     sweetAlert2: './src/ts/SweetAlert.ts',
     'sweetAlert2.min': './src/ts/SweetAlert.ts',
+    darkTheme: './src/scss/dark-theme.scss',
     'darkTheme.min': './src/scss/dark-theme.scss',
+    minimalTheme: './src/scss/minimal-theme.scss',
     'minimalTheme.min': './src/scss/minimal-theme.scss',
+    borderlessTheme: './src/scss/borderless-theme.scss',
     'borderlessTheme.min': './src/scss/borderless-theme.scss'
   },
   output: {
@@ -41,8 +44,11 @@ module.exports = {
       onEnd: {
         delete: [
           path.resolve(__dirname, 'content', 'darkTheme.min.js'),
+          path.resolve(__dirname, 'content', 'darkTheme.js'),
           path.resolve(__dirname, 'content', 'minimalTheme.min.js'),
-          path.resolve(__dirname, 'content', 'borderlessTheme.min.js')
+          path.resolve(__dirname, 'content', 'minimalTheme.js'),
+          path.resolve(__dirname, 'content', 'borderlessTheme.min.js'),
+          path.resolve(__dirname, 'content', 'borderlessTheme.js')
         ]
       }
     }),
@@ -58,7 +64,7 @@ module.exports = {
         include: /\.min\.js$/
       }),
       new OptimizeCSSAssetsPlugin({
-        include: /\.min\.css$/
+        assetNameRegExp: /\.min\.css$/
       })]
   }
 };
