@@ -23,7 +23,7 @@
 [![Build Status](https://dev.azure.com/michaeljcurrie136/CurrieTechnologies.Blazor/_apis/build/status/Basaingeal.Blazor.SweetAlert2?branchName=master)](https://dev.azure.com/michaeljcurrie136/CurrieTechnologies.Blazor/_build/latest?definitionId=14&branchName=master)
 ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/CurrieTechnologies.Blazor.SweetAlert2.svg?style=popout)
 
-## This package is for Client-side Blazor only. For Server-side Blazor use [CurrieTechnologies.Razor.SweetAlert2](https://github.com/Basaingeal/Razor.SweetAlert2)
+## This package is deprecated. Use [CurrieTechnologies.Razor.SweetAlert2](https://github.com/Basaingeal/Razor.SweetAlert2)
 
 ### 🙌 Includes themes from the [Official SweetAlert2 Themes project](https://github.com/sweetalert2/sweetalert2-themes) 🙌
 

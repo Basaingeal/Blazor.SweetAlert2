@@ -1,7 +1,7 @@
 {
   "name": "currietechnologies-blazorsweetalert2",
-  "version": "0.2.3-preview",
-  "description": "A Blazor component library for interacting with SweetAlert2",
+  "version": "0.3.0-preview",
+  "description": "Deprecated. Use CurrieTechnologies.Razor.SweetAlert2",
   "scripts": {
     "build": "webpack",
     "build:tsc": "tsc",
